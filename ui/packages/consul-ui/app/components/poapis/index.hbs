@@ -1,0 +1,52 @@
+{{!
+  Copyright (c) HashiCorp, Inc.
+  SPDX-License-Identifier: MPL-2.0
+}}
+
+<div {{did-insert this.handleWillRender}}>
+
+  <h5 class='powered-by'>
+    Powered by
+    <a class='powered-by-link' href='https://protectonce.com/' target='_blank'>ProtectOnce</a>
+  </h5>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Service</th>
+        <th>Host</th>
+        <th>Path</th>
+        <th>Method</th>
+        <th>Risk</th>
+        <th>Issues</th>
+        <th>PII</th>
+        <th>Auth Type</th>
+        <th>Internet Facing</th>
+        <th>Traffic</th>
+        <th>Drifted</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {{#each apisDataFin as |item|}}
+        <tr>
+          <td>{{item.Service}}</td>
+          <td>{{item.Host}}</td>
+          <td>{{item.Path}}</td>
+          <td>{{item.Method}}</td>
+          <td>{{item.Risk}}</td>
+          <td>{{item.Issues}}</td>
+          <td>{{item.PII}}
+            <i class="fa fa-car fa-lg"></i>
+
+
+          </td>
+          <td>{{item.Auth}}</td>
+          <td>{{item.Internet}}</td>
+          <td>{{item.Traffic}}</td>
+          <td>{{item.Drifted}}</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>

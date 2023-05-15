@@ -29,3 +29,18 @@
 /* debug only, this is empty during a production build */
 /* but uses the contents of ./debug.scss during dev */
 @import '_debug';
+
+.powered-by {
+  margin: 0.8rem 0;
+  color: grey;
+  font-size: 1rem;
+
+  &-link {
+    color: #08989e;
+    font-weight: bold;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
