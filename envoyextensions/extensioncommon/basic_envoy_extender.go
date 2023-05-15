@@ -52,6 +52,7 @@ func (envoyExtension *BasicEnvoyExtender) Validate(config *RuntimeConfig) error 
 func (envoyExtender *BasicEnvoyExtender) Extend(resources *xdscommon.IndexedResources, config *RuntimeConfig) (*xdscommon.IndexedResources, error) {
 	var resultErr error
 
+	fmt.Println("### BasicEnvoyExtender.Extend called")
 	switch config.Kind {
 	case api.ServiceKindTerminatingGateway, api.ServiceKindConnectProxy:
 	default:
@@ -132,6 +133,7 @@ func (envoyExtender *BasicEnvoyExtender) Extend(resources *xdscommon.IndexedReso
 }
 
 func (envoyExtension BasicEnvoyExtender) patchListener(config *RuntimeConfig, l *envoy_listener_v3.Listener) (proto.Message, bool, error) {
+	fmt.Println("### patchListener called")
 	switch config.Kind {
 	case api.ServiceKindTerminatingGateway:
 		return envoyExtension.patchTerminatingGatewayListener(config, l)
@@ -188,23 +190,28 @@ func (b BasicEnvoyExtender) patchConnectProxyListener(config *RuntimeConfig, l *
 	var resultErr error
 
 	envoyID := ""
+	fmt.Println("### patchConnectProxyListener called")
 	if i := strings.IndexByte(l.Name, ':'); i != -1 {
 		envoyID = l.Name[:i]
 	}
+	fmt.Println("### patchConnectProxyListener envoyID " + envoyID)
 
 	if config.IsUpstream() && envoyID == xdscommon.OutboundListenerName {
+		fmt.Println("### patchConnectProxyListener returning 1 : " + xdscommon.OutboundListenerName)
 		return b.patchTProxyListener(config, l)
 	}
 
 	// If the Envoy extension configuration is for an upstream service, the listener's
 	// name must match the upstream service's EnvoyID or be the outbound listener.
 	if config.IsUpstream() && envoyID != config.EnvoyID() {
+		fmt.Println("### patchConnectProxyListener returning 2 : " + config.EnvoyID())
 		return l, false, nil
 	}
 
 	// If the Envoy extension configuration is for inbound resources, the
 	// listener must be named xdscommon.PublicListenerName.
 	if !config.IsUpstream() && envoyID != xdscommon.PublicListenerName {
+		fmt.Println("### patchConnectProxyListener returning 2 : " + xdscommon.PublicListenerName)
 		return l, false, nil
 	}
 

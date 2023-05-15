@@ -85,6 +85,7 @@ const (
 )
 
 func (s *Server) processDelta(stream ADSDeltaStream, reqCh <-chan *envoy_discovery_v3.DeltaDiscoveryRequest) error {
+	fmt.Println("### delta processDelta called")
 	// Handle invalid ACL tokens up-front.
 	if _, err := s.authenticate(stream.Context()); err != nil {
 		return err
@@ -398,6 +399,7 @@ func (s *Server) processDelta(stream ADSDeltaStream, reqCh <-chan *envoy_discove
 }
 
 func (s *Server) applyEnvoyExtensions(resources *xdscommon.IndexedResources, cfgSnap *proxycfg.ConfigSnapshot) error {
+	fmt.Println("### delta applyEnvoyExtensions called")
 	serviceConfigs := extensionruntime.GetRuntimeConfigurations(cfgSnap)
 	for _, cfgs := range serviceConfigs {
 		for _, cfg := range cfgs {

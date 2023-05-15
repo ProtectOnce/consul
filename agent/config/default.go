@@ -44,7 +44,7 @@ func DefaultSource() Source {
 		enable_central_service_config = true
 		encrypt_verify_incoming = true
 		encrypt_verify_outgoing = true
-		log_level = "INFO"
+		log_level = "DEBUG"
 		max_query_time = "600s"
 		primary_gateways_interval = "30s"
 		protocol = ` + strconv.Itoa(consul.DefaultRPCProtocol) + `

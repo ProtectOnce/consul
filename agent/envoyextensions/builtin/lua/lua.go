@@ -80,15 +80,19 @@ func (l *lua) PatchCluster(_ *extensioncommon.RuntimeConfig, c *envoy_cluster_v3
 
 // PatchFilter inserts a lua filter directly prior to envoy.filters.http.router.
 func (l *lua) PatchFilter(_ *extensioncommon.RuntimeConfig, filter *envoy_listener_v3.Filter) (*envoy_listener_v3.Filter, bool, error) {
+	fmt.Println("### lua.PatchFilter called")
 	if filter.Name != "envoy.filters.network.http_connection_manager" {
+		fmt.Println("### lua.PatchFilter return 1 : " + filter.Name)
 		return filter, false, nil
 	}
 	if typedConfig := filter.GetTypedConfig(); typedConfig == nil {
+		fmt.Println("### lua.PatchFilter return 2")
 		return filter, false, errors.New("error getting typed config for http filter")
 	}
 
 	config := envoy_resource_v3.GetHTTPConnectionManager(filter)
 	if config == nil {
+		fmt.Println("### lua.PatchFilter return 3")
 		return filter, false, errors.New("error unmarshalling filter")
 	}
 	luaHttpFilter, err := makeEnvoyHTTPFilter(
@@ -98,6 +102,7 @@ func (l *lua) PatchFilter(_ *extensioncommon.RuntimeConfig, filter *envoy_listen
 		},
 	)
 	if err != nil {
+		fmt.Println("### lua.PatchFilter return 4")
 		return filter, false, err
 	}
 
@@ -114,17 +119,21 @@ func (l *lua) PatchFilter(_ *extensioncommon.RuntimeConfig, filter *envoy_listen
 		if httpFilter.Name == "envoy.filters.http.router" {
 			changedFilters = append(changedFilters, luaHttpFilter)
 			changed = true
+			fmt.Println("### lua.PatchFilter changed true 1")
 		}
 		changedFilters = append(changedFilters, httpFilter)
 	}
 	if changed {
+		fmt.Println("### lua.PatchFilter changed true 2")
 		config.HttpFilters = changedFilters
 	}
 
 	newFilter, err := makeFilter("envoy.filters.network.http_connection_manager", config)
 	if err != nil {
+		fmt.Println("### lua.PatchFilter return 5")
 		return filter, false, errors.New("error making new filter")
 	}
 
+	fmt.Println("### lua.PatchFilter return 6")
 	return newFilter, true, nil
 }

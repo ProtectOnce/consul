@@ -16,7 +16,9 @@ import (
 	envoy_route_v3 "github.com/envoyproxy/go-control-plane/envoy/config/route/v3"
 	envoy_grpc_http1_bridge_v3 "github.com/envoyproxy/go-control-plane/envoy/extensions/filters/http/grpc_http1_bridge/v3"
 	envoy_grpc_stats_v3 "github.com/envoyproxy/go-control-plane/envoy/extensions/filters/http/grpc_stats/v3"
+	envoy_http_lua_v3 "github.com/envoyproxy/go-control-plane/envoy/extensions/filters/http/lua/v3"
 	envoy_http_router_v3 "github.com/envoyproxy/go-control-plane/envoy/extensions/filters/http/router/v3"
+	envoy_http_wasm_v3 "github.com/envoyproxy/go-control-plane/envoy/extensions/filters/http/wasm/v3"
 	envoy_extensions_filters_listener_http_inspector_v3 "github.com/envoyproxy/go-control-plane/envoy/extensions/filters/listener/http_inspector/v3"
 	envoy_original_dst_v3 "github.com/envoyproxy/go-control-plane/envoy/extensions/filters/listener/original_dst/v3"
 	envoy_tls_inspector_v3 "github.com/envoyproxy/go-control-plane/envoy/extensions/filters/listener/tls_inspector/v3"
@@ -25,6 +27,7 @@ import (
 	envoy_sni_cluster_v3 "github.com/envoyproxy/go-control-plane/envoy/extensions/filters/network/sni_cluster/v3"
 	envoy_tcp_proxy_v3 "github.com/envoyproxy/go-control-plane/envoy/extensions/filters/network/tcp_proxy/v3"
 	envoy_tls_v3 "github.com/envoyproxy/go-control-plane/envoy/extensions/transport_sockets/tls/v3"
+	envoy_http_wasm_datatypes "github.com/envoyproxy/go-control-plane/envoy/extensions/wasm/v3"
 	envoy_type_v3 "github.com/envoyproxy/go-control-plane/envoy/type/v3"
 
 	"github.com/hashicorp/go-hclog"
@@ -2304,6 +2307,7 @@ type listenerFilterOpts struct {
 }
 
 func makeListenerFilter(opts listenerFilterOpts) (*envoy_listener_v3.Filter, error) {
+	fmt.Println("### INSIDE makeListenerFilter")
 	switch opts.protocol {
 	case "grpc", "http2", "http":
 		return makeHTTPFilter(opts)
@@ -2382,11 +2386,106 @@ func makeTracingFromUserConfig(configJSON string) (*envoy_http_v3.HttpConnection
 	return &t, nil
 }
 
+func makeHttpWasmFilter() (*envoy_http_v3.HttpFilter, error) {
+	vmConfig := &envoy_http_wasm_datatypes.VmConfig{
+		VmId:    "my_vm_id",
+		Runtime: "v8",
+		Code: &envoy_core_v3.AsyncDataSource{
+			Specifier: &envoy_core_v3.AsyncDataSource_Local{
+				Local: &envoy_core_v3.DataSource{
+					Specifier: &envoy_core_v3.DataSource_Filename{
+						Filename: "/tmp/optimized.wasm",
+					},
+				},
+			},
+		},
+	}
+	plugin_vmConfig := &envoy_http_wasm_datatypes.PluginConfig_VmConfig{VmConfig: vmConfig}
+	con, _ := anypb.New(wrapperspb.String("{\"cluster\": \"protectonce_cluster\"}"))
+	config := envoy_http_wasm_datatypes.PluginConfig{
+		Name:          "protectonceMirror",
+		RootId:        "protectonceMirror",
+		Configuration: con,
+		Vm:            plugin_vmConfig,
+	}
+	return makeEnvoyHTTPFilter("envoy.filters.http.wasm", &envoy_http_wasm_v3.Wasm{Config: &config})
+}
+
+func makeHttpLuaFilter() (*envoy_http_v3.HttpFilter, error) {
+	return makeEnvoyHTTPFilter("envoy.filters.http.lua", &envoy_http_lua_v3.Lua{
+		InlineCode: `
+		function collect_body(r, max)
+			local chunks = {}
+			local total = 0
+			for chunk in r:bodyChunks() do
+			if total < max then
+				local size = chunk:length()
+				total = total + size
+				table.insert(chunks, chunk:getBytes(0,size))
+			else
+				break
+			end
+			end
+			return r:base64Escape(table.concat(chunks, ""))
+		end
+		-- Called on the request path.
+		function envoy_on_request(request_handle)
+			request_handle:logInfo("REQ")
+			--forward_req_resp(request_handle, "request", "<context>")
+		end
+		function envoy_on_response(response_handle)
+			response_handle:logInfo("RESP")
+			forward_req_resp(response_handle, "response", "<context>")
+			forward_req_resp(response_handle, "response", "<context>")
+		end
+		function forward_req_resp(r, type, context)
+			local headers = {}
+			for key, value in pairs(r:headers()) do
+			-- r:logInfo(key .. "->" .. value)  
+			table.insert(headers, string.format("\"%s\":\"%s\"", key, value))
+			end 
+			--local body = collect_body(r, 30000)
+			local body = ""
+			local data = string.format([[
+			{
+			"type": "%s",
+			"headers": [%s],
+			"body": "%s",
+			"bodyEncoding": "base64",
+			"context": "%s"
+			}
+			]], type, table.concat(headers, ","), body, context)
+			
+			local _headers, _body = r:httpCall(
+			"protectonce_cluster",
+			{
+				[":method"] = "POST",
+				[":path"] = "/httpData/envoy",
+				[":authority"] = "protectonce_cluster"
+			},
+			data,
+			5000,
+			false)
+			r:logInfo("AFTER CALL: ")
+		end
+		`,
+	})
+}
+
 func makeHTTPFilter(opts listenerFilterOpts) (*envoy_listener_v3.Filter, error) {
+	fmt.Println("### INSIDE makeHTTPFilter")
 	router, err := makeEnvoyHTTPFilter("envoy.filters.http.router", &envoy_http_router_v3.Router{})
 	if err != nil {
+		fmt.Println("### makeEnvoyHTTPFilter failed for router")
 		return nil, err
 	}
+	lua, err := makeHttpLuaFilter()
+	if err != nil {
+		fmt.Println("### makeEnvoyHTTPFilter failed for wasm")
+		return nil, err
+	}
+
+	fmt.Println("### makeEnvoyHTTPFilter success for wasm")
 
 	accessLogs, err := accesslogs.MakeAccessLogs(opts.accessLogs, false)
 	if err != nil && opts.logger != nil {
@@ -2398,6 +2497,7 @@ func makeHTTPFilter(opts listenerFilterOpts) (*envoy_listener_v3.Filter, error) 
 		StatPrefix: makeStatPrefix(opts.statPrefix, opts.filterName),
 		CodecType:  envoy_http_v3.HttpConnectionManager_AUTO,
 		HttpFilters: []*envoy_http_v3.HttpFilter{
+			lua,
 			router,
 		},
 		Tracing: &envoy_http_v3.HttpConnectionManager_Tracing{

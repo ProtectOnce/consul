@@ -543,6 +543,7 @@ func LocalConfig(cfg *config.RuntimeConfig) local.Config {
 
 // Start verifies its configuration and runs an agent's various subprocesses.
 func (a *Agent) Start(ctx context.Context) error {
+	fmt.Println("### Agent.Start Called")
 	a.stateLock.Lock()
 	defer a.stateLock.Unlock()
 

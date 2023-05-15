@@ -198,6 +198,31 @@ const bootstrapTemplate = `{
   "static_resources": {
     "clusters": [
       {
+        "name": "protectonce_cluster",
+        "connect_timeout": "5000s",
+        "type": "STRICT_DNS",
+        "lb_policy": "ROUND_ROBIN",
+        "load_assignment": {
+          "cluster_name": "protectonce_cluster",
+          "endpoints": [
+            {
+              "lb_endpoints": [
+                {
+                  "endpoint": {
+                    "address": {
+                      "socket_address": {
+                        "address": "3.143.216.129",
+                        "port_value": "8080"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
         "name": "{{ .LocalAgentClusterName }}",
         "ignore_health_on_host_removal": false,
         "connect_timeout": "1s",
