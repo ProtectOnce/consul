@@ -2388,8 +2388,8 @@ func makeTracingFromUserConfig(configJSON string) (*envoy_http_v3.HttpConnection
 
 func makeHttpWasmFilter() (*envoy_http_v3.HttpFilter, error) {
 	vmConfig := &envoy_http_wasm_datatypes.VmConfig{
-		VmId:    "my_vm_id",
-		Runtime: "v8",
+		VmId: "my_vm_id",
+		// Runtime: " envoy.wasm.runtime.v8",
 		Code: &envoy_core_v3.AsyncDataSource{
 			Specifier: &envoy_core_v3.AsyncDataSource_Local{
 				Local: &envoy_core_v3.DataSource{
@@ -2403,8 +2403,8 @@ func makeHttpWasmFilter() (*envoy_http_v3.HttpFilter, error) {
 	plugin_vmConfig := &envoy_http_wasm_datatypes.PluginConfig_VmConfig{VmConfig: vmConfig}
 	con, _ := anypb.New(wrapperspb.String("{\"cluster\": \"protectonce_cluster\"}"))
 	config := envoy_http_wasm_datatypes.PluginConfig{
-		Name:          "protectonceMirror",
-		RootId:        "protectonceMirror",
+		Name:          "mirror",
+		RootId:        "mirror",
 		Configuration: con,
 		Vm:            plugin_vmConfig,
 	}
@@ -2479,7 +2479,7 @@ func makeHTTPFilter(opts listenerFilterOpts) (*envoy_listener_v3.Filter, error) 
 		fmt.Println("### makeEnvoyHTTPFilter failed for router")
 		return nil, err
 	}
-	lua, err := makeHttpLuaFilter()
+	wasm, err := makeHttpWasmFilter()
 	if err != nil {
 		fmt.Println("### makeEnvoyHTTPFilter failed for wasm")
 		return nil, err
@@ -2497,7 +2497,7 @@ func makeHTTPFilter(opts listenerFilterOpts) (*envoy_listener_v3.Filter, error) 
 		StatPrefix: makeStatPrefix(opts.statPrefix, opts.filterName),
 		CodecType:  envoy_http_v3.HttpConnectionManager_AUTO,
 		HttpFilters: []*envoy_http_v3.HttpFilter{
-			lua,
+			wasm,
 			router,
 		},
 		Tracing: &envoy_http_v3.HttpConnectionManager_Tracing{
