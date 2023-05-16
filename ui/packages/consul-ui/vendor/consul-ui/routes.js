@@ -415,6 +415,10 @@
           },
         },
       },
+      poapis: {
+        _options: { path: '/po-application-map',
+      },
+      },
       'routing-config': {
         _options: { path: '/routing-config/:name' },
       },
