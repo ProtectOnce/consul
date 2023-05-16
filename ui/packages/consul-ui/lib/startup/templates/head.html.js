@@ -14,6 +14,7 @@ module.exports = ({ appName, environment, rootURL, config }) => `
   <link rel="apple-touch-icon" href="${rootURL}assets/apple-touch-icon.png">
   <link integrity="" rel="stylesheet" href="${rootURL}assets/vendor.css">
   <link integrity="" rel="stylesheet" href="${rootURL}assets/${appName}.css">
+  <link rel="poLogoFull" href="${rootURL}assets/poLogoFull.svg">
   ${
     environment === 'test' ? `<link rel="stylesheet" href="${rootURL}assets/test-support.css">` : ``
   }

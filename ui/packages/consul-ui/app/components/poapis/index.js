@@ -169,7 +169,6 @@ export default class Poapis extends Component {
 
   getPath = (item) => {
     // let res = '--';
-    console.log(item, item?.path);
     return item?.path ?? '--';
     // if (item && item?.path) res = item?.path;
     // return res;
@@ -275,56 +274,97 @@ export default class Poapis extends Component {
 
   @action
   handleWillRender(element) {
-    // Perform actions before the component renders
-    fetch('https://fe.dev.protectonce.com/frontegg/identity/resources/auth/v1/user', {
-      method: 'POST',
-      body: JSON.stringify({
-        email: 'aditya.j@protectonce.com',
-        password: 'Sp@cebound18#d3v',
-        recaptchaToken: '',
-        invitationToken: '',
-      }),
-      headers: { 'Content-Type': 'application/json' },
-    })
-      .then((response) => response.json())
-      .then((json) => {
-        fetch('https://gql.dev.protectonce.com/graphql', {
-          body: '{"query":"query ($limit: Int, $nextToken: Int, $returnAllRoutes: Boolean, $query: String!, $application_id: String, $searchTerm: String) {\\n  getAPIRoutes(\\n    limit: $limit\\n    nextToken: $nextToken\\n    returnAllRoutes: $returnAllRoutes\\n    query: $query\\n    application_id: $application_id\\n    searchTerm: $searchTerm\\n  )\\n}\\n","variables":{"query":"{\\"bool\\":{\\"must\\":[{\\"match_all\\":{}},{\\"term\\":{\\"api.metadata.appId.keyword\\":\\"PO_2a31cf13-13df-410a-a430-928b0aeaee7c\\"}},{\\"term\\":{\\"api.metadata.workloadId.keyword\\":\\"DEFAULT_WORKLOAD\\"}}]}}","searchTerm":"","returnAllRoutes":true,"nextToken":0,"limit":5000,"application_id":"PO_2a31cf13-13df-410a-a430-928b0aeaee7c"}}',
-          method: 'POST',
-          headers: {
-            authorization: json.accessToken,
-            getapitokenauth: json.accessToken,
-            'content-type': 'application/json',
-            'x-api-key': 'da2-7na4grko3bbztfqncpho7x4gfu',
-          },
-        })
-          .then((response) => response.json())
-          .then((json) => {
-            const apis = JSON.parse(json?.data?.getAPIRoutes);
-            this.apisList = apis?.body?.routes;
-            const prodat = apis?.body?.routes?.map((item) => ({
-              Service: this.getServiceName(item),
-              Host: this.getHost(item),
-              Path: this.getPath(item),
-              Method: this.getMethod(item),
-              Risk: this.getAverageRiskScore(item),
-              Issues: this.getIssues(item),
-              PII: this.getPII(item),
-              Auth: this.getAuthType(item),
-              Internet:
-                item && typeof item?.internetfacing === 'string'
-                  ? item?.internetfacing === 'TRUE'
-                    ? true
-                    : false
-                  : '--',
-              Traffic: this.getTrafficValue(item),
-              Drifted: this.getDrift(item),
-            }));
-            console.log('apis', prodat);
-            set(this, 'apisDataFin', prodat);
-            return json;
-          });
-      });
+    var poAuthenticationToken = window.localStorage.getItem('po-authentication-token');
+
+    if (!poAuthenticationToken) {
+      // Perform actions before the component renders
+      fetch('https://fe.dev.protectonce.com/frontegg/identity/resources/auth/v1/user', {
+        method: 'POST',
+        body: JSON.stringify({
+          email: 'aditya.j@protectonce.com',
+          password: 'Sp@cebound18#d3v',
+          recaptchaToken: '',
+          invitationToken: '',
+        }),
+        headers: { 'Content-Type': 'application/json' },
+      })
+        .then((response) => response.json())
+        .then((json) => {
+          console.log();
+          window.localStorage.setItem('po-authentication-token', json.accessToken);
+          fetch('https://gql.dev.protectonce.com/graphql', {
+            body: '{"query":"query ($limit: Int, $nextToken: Int, $returnAllRoutes: Boolean, $query: String!, $application_id: String, $searchTerm: String) {\\n  getAPIRoutes(\\n    limit: $limit\\n    nextToken: $nextToken\\n    returnAllRoutes: $returnAllRoutes\\n    query: $query\\n    application_id: $application_id\\n    searchTerm: $searchTerm\\n  )\\n}\\n","variables":{"query":"{\\"bool\\":{\\"must\\":[{\\"match_all\\":{}},{\\"term\\":{\\"api.metadata.appId.keyword\\":\\"PO_2a31cf13-13df-410a-a430-928b0aeaee7c\\"}},{\\"term\\":{\\"api.metadata.workloadId.keyword\\":\\"DEFAULT_WORKLOAD\\"}}]}}","searchTerm":"","returnAllRoutes":true,"nextToken":0,"limit":5000,"application_id":"PO_2a31cf13-13df-410a-a430-928b0aeaee7c"}}',
+            method: 'POST',
+            headers: {
+              authorization: json.accessToken,
+              getapitokenauth: json.accessToken,
+              'content-type': 'application/json',
+              'x-api-key': 'da2-7na4grko3bbztfqncpho7x4gfu',
+            },
+          })
+            .then((response) => response.json())
+            .then((json) => {
+              const apis = JSON.parse(json?.data?.getAPIRoutes);
+              this.apisList = apis?.body?.routes;
+              const prodat = apis?.body?.routes?.map((item) => ({
+                Service: this.getServiceName(item),
+                Host: this.getHost(item),
+                Path: this.getPath(item),
+                Method: this.getMethod(item),
+                Risk: this.getAverageRiskScore(item),
+                Issues: this.getIssues(item),
+                PII: this.getPII(item),
+                Auth: this.getAuthType(item),
+                Internet:
+                  item && typeof item?.internetfacing === 'string'
+                    ? item?.internetfacing === 'TRUE'
+                      ? true
+                      : false
+                    : '--',
+                Traffic: this.getTrafficValue(item),
+                Drifted: this.getDrift(item),
+              }));
+              set(this, 'apisDataFin', prodat);
+              return json;
+            });
+        });
+    } else {
+      fetch('https://gql.dev.protectonce.com/graphql', {
+        body: '{"query":"query ($limit: Int, $nextToken: Int, $returnAllRoutes: Boolean, $query: String!, $application_id: String, $searchTerm: String) {\\n  getAPIRoutes(\\n    limit: $limit\\n    nextToken: $nextToken\\n    returnAllRoutes: $returnAllRoutes\\n    query: $query\\n    application_id: $application_id\\n    searchTerm: $searchTerm\\n  )\\n}\\n","variables":{"query":"{\\"bool\\":{\\"must\\":[{\\"match_all\\":{}},{\\"term\\":{\\"api.metadata.appId.keyword\\":\\"PO_2a31cf13-13df-410a-a430-928b0aeaee7c\\"}},{\\"term\\":{\\"api.metadata.workloadId.keyword\\":\\"DEFAULT_WORKLOAD\\"}}]}}","searchTerm":"","returnAllRoutes":true,"nextToken":0,"limit":5000,"application_id":"PO_2a31cf13-13df-410a-a430-928b0aeaee7c"}}',
+        method: 'POST',
+        headers: {
+          authorization: poAuthenticationToken,
+          getapitokenauth: poAuthenticationToken,
+          'content-type': 'application/json',
+          'x-api-key': 'da2-7na4grko3bbztfqncpho7x4gfu',
+        },
+      })
+        .then((response) => response.json())
+        .then((json) => {
+          const apis = JSON.parse(json?.data?.getAPIRoutes);
+          this.apisList = apis?.body?.routes;
+          const prodat = apis?.body?.routes?.map((item) => ({
+            Service: this.getServiceName(item),
+            Host: this.getHost(item),
+            Path: this.getPath(item),
+            Method: this.getMethod(item),
+            Risk: this.getAverageRiskScore(item),
+            Issues: this.getIssues(item),
+            PII: this.getPII(item),
+            Auth: this.getAuthType(item),
+            Internet:
+              item && typeof item?.internetfacing === 'string'
+                ? item?.internetfacing === 'TRUE'
+                  ? true
+                  : false
+                : '--',
+            Traffic: this.getTrafficValue(item),
+            Drifted: this.getDrift(item),
+          }));
+          set(this, 'apisDataFin', prodat);
+          return json;
+        });
+    }
 
     // You can access the component's properties and perform any necessary logic here
   }
