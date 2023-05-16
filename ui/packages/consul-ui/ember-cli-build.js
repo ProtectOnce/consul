@@ -150,6 +150,9 @@ module.exports = function (defaults, $ = process.env) {
       productionEnvironments: prodlike,
     }),
     {
+      fingerprint: {
+        exclude: ['/assets/images'],
+      },
       trees: trees,
       addons: addons,
       outputPaths: outputPaths,
