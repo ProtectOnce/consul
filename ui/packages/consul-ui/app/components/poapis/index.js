@@ -21,13 +21,13 @@ export default class Poapis extends Component {
   @tracked apisDataFin = [];
   @tracked dataIsLoaded = false;
 
-  FRONTEGG_URL = 'https://fe.dev.protectonce.com/frontegg/identity/resources/auth/v1/user';
-  GRAPHQL_URL = 'https://gql.dev.protectonce.com/graphql';
+  FRONTEGG_URL = 'https://fe.staging.protectonce.com/frontegg/identity/resources/auth/v1/user';
+  GRAPHQL_URL = 'https://gql.staging.protectonce.com/graphql';
   AUTH_EMAIL = 'aditya.j@protectonce.com';
-  AUTH_PASSWORD = 'Sp@cebound18#d3v';
-  PO_APPLICATION_ID = 'PO_2a31cf13-13df-410a-a430-928b0aeaee7c';
+  AUTH_PASSWORD = 'Sp@cebound18#s$tg';
+  PO_APPLICATION_ID = 'PO_4d29a1c1-02cf-4614-b7df-7c2b38bab429';
   TOKEN_KEYWORD = 'po-authentication-token';
-  XAPI_KEY = 'da2-7na4grko3bbztfqncpho7x4gfu';
+  XAPI_KEY = 'da2-tvafhllleveedme3ic5kmfv3za';
   PO_WORKLOAD_ID = 'DEFAULT_WORKLOAD';
 
   constructor() {
