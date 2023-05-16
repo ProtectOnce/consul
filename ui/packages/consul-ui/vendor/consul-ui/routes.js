@@ -151,6 +151,9 @@
           tags: {
             _options: { path: '/tags' },
           },
+          poapis: {
+            _options: { path: '/poapis' },
+          },
         },
         instance: {
           _options: {

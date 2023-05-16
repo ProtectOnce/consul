@@ -1,10 +1,15 @@
-@charset 'utf-8';
+/**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
 
-/* css for hds */
-@import '@hashicorp/design-system-components';
+@charset 'utf-8';
 
 /* tailwind before all the customizations */
 @import 'tailwind';
+
+/* css for hds */
+@import '@hashicorp/design-system-components';
 
 /* all variables and custom queries including generic base variables */
 @import 'variables';
@@ -24,3 +29,71 @@
 /* debug only, this is empty during a production build */
 /* but uses the contents of ./debug.scss during dev */
 @import '_debug';
+
+.powered-by {
+  margin: 0.8rem 0;
+  color: grey;
+  font-size: 0.8rem;
+  text-align: end;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+
+  &-link {
+    color: #08989e;
+    font-weight: bold;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.po-table-cell {
+  width: 10%;
+  max-width: 10rem;
+
+  &-child {
+    max-width: 100%;
+
+    &-Path {
+      display: flex;
+      text-overflow: ellipsis;
+    }
+    &-PII {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 0.4rem;
+    }
+    &-Auth {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 0.4rem;
+    }
+    &-Internet {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+    }
+  }
+}
+
+.green-color {
+  color: var(--token-color-foreground-success);
+  display: flex;
+  width: fit-content;
+}
+.red-color {
+  color: var(--token-color-foreground-critical);
+  display: flex;
+  width: fit-content;
+}
+.protectonce-logo {
+  height: 1.2rem;
+  width: auto;
+}
