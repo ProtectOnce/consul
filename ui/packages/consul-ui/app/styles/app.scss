@@ -80,6 +80,12 @@
       justify-content: center;
       gap: 0.4rem;
     }
+    &-API {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px !important;
+    }
   }
 }
 
@@ -114,4 +120,9 @@
   white-space: nowrap;
   font-size: 1.5rem;
   font-weight: bold;
+}
+
+.api-type-image {
+  height: 1.2rem;
+  width: auto;
 }

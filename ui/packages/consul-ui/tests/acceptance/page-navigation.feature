@@ -45,7 +45,7 @@ Feature: page-navigation
     | Item | Model | URL                       | Endpoint                                                                    | Back     |
     | kv   | kvs   | /dc1/kv/0-key-value/edit | /v1/session/info/ee52203d-989f-4f7a-ab5a-2bef004164ca?dc=dc1&ns=@namespace | /dc1/kv |
     -------------------------------------------------------------------------------------------------------------------------------------
-  Scenario: The node detail page calls the correct API endpoints
+  Scenario: The node detail page calls the correct API Insights
     When I visit the node page for yaml
     ---
       dc: dc1
@@ -60,7 +60,7 @@ Feature: page-navigation
     ---
   # FIXME
   @ignore
-  Scenario: The kv detail page calls the correct API endpoints
+  Scenario: The kv detail page calls the correct API Insights
     When I visit the kv page for yaml
     ---
       dc: dc1
@@ -73,7 +73,7 @@ Feature: page-navigation
       - /v1/kv/keyname?dc=dc1&ns=@namespace
       - /v1/session/info/ee52203d-989f-4f7a-ab5a-2bef004164ca?dc=dc1&ns=@namespace
     ---
-  Scenario: The policies page/tab calls the correct API endpoints
+  Scenario: The policies page/tab calls the correct API Insights
     When I visit the policies page for yaml
     ---
       dc: dc1

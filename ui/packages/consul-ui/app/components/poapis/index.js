@@ -12,24 +12,24 @@ import {
   getMethod,
   getPII,
   getPath,
-  getServiceName,
   getTrafficValue,
 } from './utils';
-
+import ENV from 'consul-ui/config/environment';
 export default class Poapis extends Component {
   @tracked apisList = [];
   @tracked apisDataFin = [];
   @tracked dataIsLoaded = false;
 
-  FRONTEGG_URL = 'https://fe.dev.protectonce.com/frontegg/identity/resources/auth/v1/user';
-  GRAPHQL_URL = 'https://gql.dev.protectonce.com/graphql';
-  AUTH_EMAIL = 'aditya.j@protectonce.com';
-  AUTH_PASSWORD = 'Sp@cebound18#d3v';
-  PO_APPLICATION_ID = 'PO_2a31cf13-13df-410a-a430-928b0aeaee7c';
+  FRONTEGG_URL = ENV.POVARS.FRONTEGG_URL;
+  GRAPHQL_URL = ENV.POVARS.GRAPHQL_URL;
+  AUTH_EMAIL = ENV.POVARS.AUTH_EMAIL;
+  AUTH_PASSWORD = ENV.POVARS.AUTH_PASSWORD;
+  PO_APPLICATION_ID = ENV.POVARS.PO_APPLICATION_ID;
+  XAPI_KEY = ENV.POVARS.XAPI_KEY;
+  PO_WORKLOAD_ID = ENV.POVARS.PO_WORKLOAD_ID;
   TOKEN_KEYWORD = 'po-authentication-token';
-  XAPI_KEY = 'da2-7na4grko3bbztfqncpho7x4gfu';
-  PO_WORKLOAD_ID = 'DEFAULT_WORKLOAD';
-
+  REST_IMAGE_URI = '/ui/assets/images/apiTypes/rest.svg';
+  GRPC_IMAGE_URI = '/ui/assets/images/apiTypes/grpc.svg';
   constructor() {
     super(...arguments);
   }
@@ -46,7 +46,7 @@ export default class Poapis extends Component {
         }),
         headers: { 'Content-Type': 'application/json' },
       });
-      return await response.json();
+      return await response?.json();
     } catch (err) {
       console.error(err);
       return {};
@@ -58,9 +58,13 @@ export default class Poapis extends Component {
 
     if (!poAuthenticationToken) {
       const authData = await this.fetchToken();
-      console.log('forced to fetch token ');
-      poAuthenticationToken = authData?.accessToken;
-      window.localStorage.setItem(this.TOKEN_KEYWORD, authData?.accessToken);
+      console.log(authData);
+      if (authData && 'accessToken' in authData) {
+        poAuthenticationToken = authData?.accessToken;
+        window.localStorage.setItem(this.TOKEN_KEYWORD, authData?.accessToken);
+      } else {
+        console.error("couldn't acquire token");
+      }
     }
     return poAuthenticationToken;
   };
@@ -128,7 +132,10 @@ export default class Poapis extends Component {
   createData = (apis) => {
     if (apis && apis?.length > 0) {
       return apis?.map((item) => ({
-        Service: getServiceName(item),
+        Service: 'Shopping Cart Service', // getServiceName(item),
+        APIType: item?.method?.toUpperCase() === 'POST' ? 'REST' : 'gRPC',
+        APIImage:
+          item?.method?.toUpperCase() === 'POST' ? this.REST_IMAGE_URI : this.GRPC_IMAGE_URI,
         Host: getHost(item),
         Path: getPath(item),
         Method: getMethod(item),
@@ -152,21 +159,22 @@ export default class Poapis extends Component {
   @action
   async handleWillRender(element) {
     const token = await this.getToken();
-    this.getApiRoutes(token)
-      ?.then((apisData) => {
-        if (apisData && apisData?.data && apisData?.data?.getAPIRoutes) {
-          const apis = JSON.parse(apisData?.data?.getAPIRoutes);
-          if (apis && apis?.body && apis?.body?.routes && Array.isArray(apis?.body?.routes)) {
-            const finalApis = this.createData(apis?.body?.routes);
-            set(this, 'apisDataFin', finalApis);
-            set(this, 'isLoaded', true);
-            console.log(finalApis);
+    if (token) {
+      this.getApiRoutes(token)
+        ?.then((apisData) => {
+          if (apisData && apisData?.data && apisData?.data?.getAPIRoutes) {
+            const apis = JSON.parse(apisData?.data?.getAPIRoutes);
+            if (apis && apis?.body && apis?.body?.routes && Array.isArray(apis?.body?.routes)) {
+              const finalApis = this.createData(apis?.body?.routes);
+              set(this, 'apisDataFin', finalApis);
+              set(this, 'isLoaded', true);
+            }
           }
-        }
-      })
-      ?.catch((err) => {
-        console.error(err);
-        set(this, 'isLoaded', true);
-      });
+        })
+        ?.catch((err) => {
+          console.error(err);
+          set(this, 'isLoaded', true);
+        });
+    }
   }
 }
