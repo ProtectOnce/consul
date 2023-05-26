@@ -1,0 +1,95 @@
+{{!
+  Copyright (c) HashiCorp, Inc.
+  SPDX-License-Identifier: MPL-2.0
+}}
+
+<div {{did-insert this.handleWillRender}} class='po-container'>
+  <div>
+    <div class='display-flex-container-zero-gap'>
+      {{#if (eq this.activeTab 'request')}}
+        <Hds::Button
+          @text='Request'
+          @color='secondary'
+          @size='small'
+          class='po-group-button-left po-group-button-active'
+          {{action 'setTableColumns' 'request'}}
+        />
+      {{else}}
+        <Hds::Button
+          @text='Request'
+          @color='secondary'
+          @size='small'
+          class='po-group-button-left'
+          {{action 'setTableColumns' 'request'}}
+        />
+      {{/if}}
+      {{#if (eq this.activeTab 'response')}}
+        <Hds::Button
+          @text='Response'
+          @color='secondary'
+          @size='small'
+          class='po-group-button-right po-group-button-active'
+          {{action 'setTableColumns' 'response'}}
+        />
+      {{else}}
+        <Hds::Button
+          @text='Response'
+          @color='secondary'
+          @size='small'
+          class='po-group-button-right'
+          {{action 'setTableColumns' 'response'}}
+        />
+      {{/if}}
+    </div>
+    {{#if true}}
+      <div class='po-schema-selector'>
+        <span class='select-status-code-text'>Select Status Code</span>
+        <Hds::Dropdown @listPosition='bottom-left' @isInline={{true}} as |dd|>
+          <dd.ToggleButton @text={{selectedStatusCode}} @color='secondary' size='small' />
+          {{#each statusCodes as |ss|}}
+            <dd.Interactive href='#' @text={{ss}} {{action 'selectCode' ss}} />
+          {{/each}}
+        </Hds::Dropdown>
+      </div>
+    {{/if}}
+  </div>
+
+  {{#if isLoaded}}
+    {{#if (eq schemaData.length 0)}}
+      <h2>No Data available</h2>
+    {{else}}
+      <Hds::Table>
+        <:head as |H|>
+          <H.Tr>
+            <H.Th>Name</H.Th>
+            <H.Th>Value</H.Th>
+            <H.Th>Type</H.Th>
+          </H.Tr>
+        </:head>
+        <:body as |B|>
+          {{#each schemaData as |item|}}
+            <B.Tr>
+              <B.Td class='po-table-cell-schema'>
+                <span {{tooltip item.name}} class='po-table-cell-schema-text'>
+                  {{item.name}}
+                </span>
+              </B.Td>
+              <B.Td class='po-table-cell-schema'>
+                <span {{tooltip item.value}} class='po-table-cell-schema-text'>
+                  {{item.value}}
+                </span>
+              </B.Td>
+              <B.Td class='po-table-cell-schema'>
+                <span {{tooltip item.type}} class='po-table-cell-schema-text'>
+                  {{item.type}}
+                </span>
+              </B.Td>
+            </B.Tr>
+          {{/each}}
+        </:body>
+      </Hds::Table>
+    {{/if}}
+  {{else}}
+    <Consul::Loader />
+  {{/if}}
+</div>

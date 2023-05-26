@@ -33,7 +33,7 @@
       </:head>
       <:body as |B|>
         {{#each apisDataFin as |item|}}
-          <B.Tr>
+          <B.Tr {{action "showDetails" item}}>
             <B.Td class='po-table-cell'>
               <div class='po-table-cell-child-Service'>
                 <span {{tooltip item.Service}}>
@@ -42,9 +42,9 @@
               </div>
             </B.Td>
             <B.Td class='po-table-cell-child-API'>
-              {{!-- <div class='po-table-cell-child-API'> --}}
-                <img {{tooltip item.APIType}} src={{item.APIImage}} class='api-type-image' />
-              {{!-- </div> --}}
+              {{! <div class='po-table-cell-child-API'> }}
+              <img {{tooltip item.APIType}} src={{item.APIImage}} class='api-type-image' />
+              {{! </div> }}
             </B.Td>
             <B.Td class='po-table-cell'>
               <div class='po-table-cell-child-Host'>

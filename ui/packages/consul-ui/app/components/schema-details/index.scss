@@ -1,0 +1,18 @@
+/**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+.powered-by {
+  margin: 0.8rem 0;
+  color: grey;
+  font-size: 1rem;
+
+  &-link {
+    color: #08989e;
+    font-weight: bold;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

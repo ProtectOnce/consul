@@ -215,5 +215,8 @@
   },
   "volta": {
     "node": "14.20.1"
+  },
+  "dependencies": {
+    "@hashicorp/ember-flight-icons": "^3.0.3"
   }
 }

@@ -207,3 +207,118 @@ export const getStylizedPath = (pathOg) => {
     return newPath;
   }
 };
+
+export const getSchemaData = (item) => {
+  let statusCodes = [];
+  let showStatusCodeSelection = false;
+  let selectedStatusCode = '200';
+  let transformedData = [];
+
+  const doKeys = Object?.keys(item?.detail);
+  let multObj = false;
+  const oldKeys = [
+    'authorization',
+    'query_params',
+    'path_params',
+    'request_body_schema',
+    'response_body_schema',
+    'response_headers',
+    'request_headers',
+  ];
+  if (doKeys?.length === 0) {
+    return [];
+  }
+
+  const commonElements = doKeys?.filter((value) => oldKeys?.includes(value));
+  if (commonElements?.length === 0) {
+    statusCodes = doKeys;
+    // setSelectedStatusCodes([doKeys[0]]);
+    showStatusCodeSelection = true;
+    multObj = true;
+  } else {
+    showStatusCodeSelection = false;
+  }
+
+  const flattenObject = (obj) => {
+    const result = [];
+
+    const flatten = (obj, parentKey = '') => {
+      for (const key in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
+          const value = obj[key];
+          let propName = parentKey ? `${parentKey}.${key}` : key;
+          if (key === 'isAuthorized') {
+            continue;
+          }
+
+          if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+            flatten(value, propName);
+          } else {
+            const type = Array.isArray(value) ? 'array' : typeof value;
+            result.push({ name: propName, value: value, type: type });
+          }
+        }
+      }
+    };
+
+    flatten(obj);
+    return result;
+  };
+
+  const handleSchemaGeneration = (input) => {
+    delete input?.response_body_schema;
+    const flattenedData = flattenObject(input);
+    return flattenedData;
+  };
+
+  const transformData = ({ schemaData }) => {
+    let res = {};
+    const doKeys = Object?.keys(item?.detail);
+    let multObj = false;
+    const oldKeys = [
+      'authorization',
+      'query_params',
+      'path_params',
+      'request_body_schema',
+      'response_body_schema',
+      'response_headers',
+      'request_headers',
+    ];
+    if (doKeys?.length === 0) {
+      multObj = false;
+    }
+
+    const commonElements = doKeys?.filter((value) => oldKeys?.includes(value));
+    if (commonElements?.length === 0) {
+      multObj = true;
+    }
+
+    showStatusCodeSelection = multObj;
+    if (multObj) {
+      doKeys?.forEach((value) => {
+        const intmVal = schemaData[value]?.schema;
+        res[value] = handleSchemaGeneration(intmVal);
+      });
+    } else {
+      res['200'] = handleSchemaGeneration(schemaData);
+    }
+    selectedStatusCode = multObj ? (doKeys?.length > 0 ? doKeys[0] : '200') : '200';
+    transformedData = res;
+  };
+
+  transformData({
+    schemaData: item?.detail,
+    statusCodes,
+    showStatusCodeSelection,
+    selectedStatusCode,
+    transformedData,
+  });
+
+  if (!multObj) {
+    selectedStatusCode = '200';
+    showStatusCodeSelection = false;
+  }
+  transformData[selectedStatusCode];
+
+  return transformedData;
+};
