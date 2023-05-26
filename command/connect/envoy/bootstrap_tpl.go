@@ -211,8 +211,8 @@ const bootstrapTemplate = `{
                   "endpoint": {
                     "address": {
                       "socket_address": {
-                        "address": "3.143.216.129",
-                        "port_value": "8080"
+                        "address": "10.5.0.210",
+                        "port_value": "8000"
                       }
                     }
                   }

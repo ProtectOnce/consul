@@ -737,6 +737,28 @@ func (c *BootstrapConfig) generateListenerConfig(args *BootstrapTplArgs, bindAdd
 							},
 							"http_filters": [
 								{
+									"name": "envoy.filters.http.wasm",
+									"typed_config": {
+									 "@type": "type.googleapis.com/envoy.extensions.filters.http.wasm.v3.Wasm",
+									 "config": {
+									  "name": "mirror",
+									  "root_id": "mirror",
+									  "vm_config": {
+									   "vm_id": "my_vm_id",
+									   "code": {
+										"local": {
+										 "filename": "/tmp/optimized.wasm"
+										}
+									   }
+									  },
+									  "configuration": {
+									   "@type": "type.googleapis.com/google.protobuf.StringValue",
+									   "value": "{\"cluster\": \"protectonce_cluster\"}"
+									  }
+									 }
+									}
+								   },
+								{
 									"name": "envoy.filters.http.router",
 									"typedConfig": {
 									"@type": "type.googleapis.com/envoy.extensions.filters.http.router.v3.Router"

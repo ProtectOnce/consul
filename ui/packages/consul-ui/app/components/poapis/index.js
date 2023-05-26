@@ -25,11 +25,14 @@ export default class SchemaDetails extends Component {
   @tracked dataIsLoaded = false;
   @service router;
 
+
   GRAPHQL_URL = ENV.POVARS.GRAPHQL_URL;
   PO_APPLICATION_ID = ENV.POVARS.PO_APPLICATION_ID;
   PO_WORKLOAD_ID = ENV.POVARS.PO_WORKLOAD_ID;
   REST_IMAGE_URI = '/ui/assets/images/apiTypes/rest.svg';
   GRPC_IMAGE_URI = '/ui/assets/images/apiTypes/grpc.svg';
+
+  
   constructor() {
     super(...arguments);
   }
