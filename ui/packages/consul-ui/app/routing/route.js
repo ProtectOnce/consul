@@ -76,16 +76,6 @@ export default class BaseRoute extends Route {
   // therefore we need to change the route parameter intention_id to just
   // intention or id or similar then we can revert to only returning a model if
   // we have searchProps (or a child route overwrites model)
-  model() {
-    const model = {};
-    if (
-      typeof this.queryParams !== 'undefined' &&
-      typeof this.queryParams.searchproperty !== 'undefined'
-    ) {
-      model.searchProperties = this.queryParams.searchproperty.empty[0];
-    }
-    return model;
-  }
 
   /**
    * Set the routeName for the controller so that it is available in the template

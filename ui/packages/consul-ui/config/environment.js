@@ -11,6 +11,8 @@ const repositoryRoot = path.resolve(__dirname, '../../../../');
 const repositoryYear = utils.repositoryYear;
 const repositorySHA = utils.repositorySHA;
 const binaryVersion = utils.binaryVersion(repositoryRoot);
+const dotenv = require('dotenv');
+dotenv.config();
 
 module.exports = function (environment, $ = process.env) {
   // available environments
@@ -24,6 +26,16 @@ module.exports = function (environment, $ = process.env) {
     rootURL: '/ui/',
     locationType: 'fsm-with-optional',
     historySupportMiddleware: true,
+
+    POVARS: {
+      FRONTEGG_URL: process.env.FRONTEGG_URL,
+      GRAPHQL_URL: process.env.GRAPHQL_URL,
+      AUTH_EMAIL: process.env.AUTH_EMAIL,
+      AUTH_PASSWORD: process.env.AUTH_PASSWORD,
+      PO_APPLICATION_ID: process.env.PO_APPLICATION_ID,
+      XAPI_KEY: process.env.XAPI_KEY,
+      PO_WORKLOAD_ID: process.env.PO_WORKLOAD_ID,
+    },
 
     torii: {
       disableRedirectInitializer: false,

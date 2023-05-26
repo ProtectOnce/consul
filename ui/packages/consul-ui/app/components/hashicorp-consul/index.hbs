@@ -136,8 +136,8 @@
           <a href={{href-to 'dc.intentions' @dc.Name params=(hash peer=undefined)}}>Intentions</a>
         </li>
       {{/if}}
-      <li data-test-main-nav-api-endpoints class={{if (is-href 'dc.poapis' @dc.Name) 'is-active'}}>
-        <a href={{href-to 'dc.poapis' @dc.Name params=(hash peer=undefined)}}>API Endpoints</a>
+      <li data-test-main-nav-api-insights class={{if (is-href 'dc.poapis' @dc.Name) 'is-active'}}>
+        <a href={{href-to 'dc.poapis' @dc.Name params=(hash peer=undefined)}}>API Insights</a>
       </li>
       <Consul::Acl::Selector @dc={{@dc}} @partition={{@partition}} @nspace={{@nspace}} />
       <Consul::Peer::Selector @dc={{@dc}} @partition={{@partition}} @nspace={{@nspace}} />

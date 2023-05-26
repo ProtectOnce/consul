@@ -1,0 +1,159 @@
+{{!
+  Copyright (c) HashiCorp, Inc.
+  SPDX-License-Identifier: MPL-2.0
+}}
+
+<div {{did-insert this.handleWillRender}} class='po-container'>
+  <div class='display-flex-container-zero-gap'></div>
+  {{#if isLoaded}}
+    <Hds::Table>
+      <:head as |H|>
+        <H.Tr>
+          <H.Th>Posture Type</H.Th>
+          <H.Th>Severity</H.Th>
+        </H.Tr>
+      </:head>
+      <:body as |B|>
+        {{#each postureIssues as |item|}}
+          <B.Tr {{action 'showPostureDetails' item}}>
+            <B.Td class='po-table-cell'>
+              <div>
+                <span {{tooltip item.title}}>
+                  {{item.title}}
+                </span>
+              </div>
+            </B.Td>
+            <B.Td>
+              <div class='po-table-cell-child-severity'>
+                {{#if (eq item.severity 'critical')}}
+                  <span {{tooltip item.severity}} class='po-table-cell-child-severity-critical'>
+                    {{item.severity}}
+                  </span>
+                {{else if (eq item.severity 'high')}}
+                  <span {{tooltip item.severity}} class='po-table-cell-child-severity-high'>
+                    {{item.severity}}
+                  </span>
+
+                {{else if (eq item.severity 'medium')}}
+                  <span {{tooltip item.severity}} class='po-table-cell-child-severity-medium'>
+                    {{item.severity}}
+                  </span>
+
+                {{else if (eq item.severity 'Medium')}}
+                  <span {{tooltip item.severity}} class='po-table-cell-child-severity-Medium'>
+                    {{item.severity}}
+                  </span>
+
+                {{else}}
+                  <span {{tooltip item.severity}} class='po-table-cell-child-severity-low'>
+                    {{item.severity}}
+                  </span>
+                {{/if}}
+              </div>
+            </B.Td>
+          </B.Tr>
+        {{/each}}
+      </:body>
+    </Hds::Table>
+  {{else}}
+    <Consul::Loader />
+  {{/if}}
+
+  {{#if showModal}}
+    <Hds::Flyout id='basic-flyout' @size='large' @onClose={{fn this.hideModal}} as |M|>
+      <M.Header>
+        {{selectedPosture.title}}
+      </M.Header>
+      <M.Description>
+        {{selectedPosture.description}}
+      </M.Description>
+      <M.Body>
+        <div>
+          <div>
+            <div>
+              {{#if selectedPosture.detectionTime}}
+                <div style='margin: 0.5rem 0rem'>
+                  <FlightIcon style='margin-right: 0.2rem;' @name='clock' />
+                  <span>Detection Time</span>
+                  <span>{{selectedPosture.detectionTime}}</span>
+                </div>
+              {{/if}}
+              {{#if selectedPosture.severity}}
+                <div style='margin: 0rem 0rem 0.5rem 0rem; text-transform: capitalize;'>
+                  <FlightIcon style='margin-right: 0.2rem;' @name='line-chart' />
+                  <span>Severity: </span>
+                  {{#if (eq selectedPosture.severity 'critical')}}
+                    <span class='po-table-cell-child-severity-critical'>
+                      {{selectedPosture.severity}}
+                    </span>
+                  {{else if (eq selectedPosture.severity 'high')}}
+                    <span class='po-table-cell-child-severity-high'>
+                      {{selectedPosture.severity}}
+                    </span>
+
+                  {{else if (eq selectedPosture.severity 'medium')}}
+                    <span class='po-table-cell-child-severity-medium'>
+                      {{selectedPosture.severity}}
+                    </span>
+
+                  {{else if (eq selectedPosture.severity 'Medium')}}
+                    <span class='po-table-cell-child-severity-Medium'>
+                      {{selectedPosture.severity}}
+                    </span>
+
+                  {{else}}
+                    <span class='po-table-cell-child-severity-low'>
+                      {{selectedPosture.severity}}
+                    </span>
+                  {{/if}}
+                </div>
+              {{/if}}
+            </div>
+          </div>
+          <div class='po-grid-container'>
+            {{#if selectedPosture.impact}}
+              <div style='margin: 1rem 0rem'>
+                <span>
+                  <FlightIcon @size='24' style='margin-right: 0.2rem;' @name='hammer' />
+                </span>
+                <span style='font-size: 1.1rem; font-weight: bold'>
+                  Impact
+                </span>
+                <div>
+                  <div class='po-paper-container'>
+                    <span>
+                      {{selectedPosture.impact}}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            {{/if}}
+            {{#if selectedPosture.mitigation}}
+              <div style='margin: 1rem 0rem'>
+                <span>
+                  <FlightIcon @size='24' style='margin-right: 0.2rem;' @name='build' />
+                </span>
+                <span style='font-size: 1.1rem; font-weight: bold'>
+                  Mitigation
+                </span>
+              </div>
+              {{#each selectedPosture.mitigation as |mitigationItem index|}}
+                <div>
+                  <div class='po-paper-container'>
+                    <span style='font-weight: bold;'>
+                      {{add index 1}}.
+                    </span>
+                    <span>
+                      {{mitigationItem}}
+                    </span>
+                  </div>
+                </div>
+              {{/each}}
+            {{/if}}
+          </div>
+        </div>
+      </M.Body>
+
+    </Hds::Flyout>
+  {{/if}}
+</div>

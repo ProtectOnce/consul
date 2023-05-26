@@ -422,6 +422,17 @@
       'routing-config': {
         _options: { path: '/routing-config/:name' },
       },
+      api: {
+        _options: {
+          path: '/api/:api',
+        },
+        schema: {
+          path: '/schema',
+        },
+        posture: {
+          path: '/posture',
+        }
+      },
     },
     index: {
       _options: { path: '/' },

@@ -80,6 +80,31 @@
       justify-content: center;
       gap: 0.4rem;
     }
+    &-API {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px !important;
+    }
+
+    &-severity {
+      text-transform: capitalize;
+      &-critical {
+        color: red;
+      }
+      &-high {
+        color: #ed6e05;
+      }
+      &-medium {
+        color: #b38e00;
+      }
+      &-Medium {
+        color: #b38e00;
+      }
+      &-low {
+        color: #358800;
+      }
+    }
   }
 }
 
@@ -109,9 +134,80 @@
   align-items: center;
   justify-content: space-between;
 }
+.display-flex-container-zero-gap {
+  display: flex;
+  margin: 1rem 0rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0px;
+  justify-content: flex-start;
+}
 
-.api-endpoints-title {
+.api-insights-title {
   white-space: nowrap;
   font-size: 1.5rem;
   font-weight: bold;
+}
+
+.api-type-image {
+  height: 1.2rem;
+  width: auto;
+}
+
+.po-schema-selector {
+  margin: 1rem 0rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.6rem;
+}
+
+.select-status-code-text {
+  font-size: 1rem;
+}
+
+.po-width-full {
+  width: 100%;
+}
+
+.po-breadcrumb-link {
+  white-space: nowrap;
+}
+
+.po-group-button {
+  &-left {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  &-right {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+}
+
+.po-group-button-active {
+  color: var(--token-color-foreground-primary);
+  background-color: var(--token-color-surface-interactive-active);
+  border-color: var(--token-color-border-strong);
+  box-shadow: none;
+}
+
+.po-paper-container {
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.43;
+  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  margin: 12px 0px;
+  padding: 16px;
+}
+
+.po-table-cell-schema {
+  display: table-cell;
+}
+
+.po-table-cell-schema-text {
+  white-space: normal;
 }
