@@ -6,14 +6,15 @@
 <Route @name={{routeName}} as |route|>
   <div class='display-flex-container' style='margin: 0px;'>
     <span class='po-breadcrumb display-flex-container'>
-      <FlightIcon @name='chevron-left' />
-      <a class='po-breadcrumb-link' data-test-back href={{href-to 'dc.poapis'}}> All APIs</a>
+      <a class='po-breadcrumb-link' data-test-back href={{model.linkTo}}>
+        <FlightIcon @name='chevron-left' />
+        All APIs</a>
     </span>
 
     <h5 class='powered-by'>
       Powered by
       <a class='powered-by-link' href='https://protectonce.com/' target='_blank'>
-        <img src='/ui/assets/images/poLogoFull.svg' class='protectonce-logo' />
+        <img src='/ui/assets/images/poLogoFull.svg' class='protectonce-logo' alt="protectonce-logo"/>
       </a>
     </h5>
   </div>
