@@ -20,7 +20,8 @@
   </span>
 
   {{#if loggedIn}}
-    {{#if isLoaded}}
+    <PoAppSelector @handleReload={{handleReload}} />
+    {{#if (eq isLoaded 1)}}
       <Hds::Table>
         <:head as |H|>
           <H.Tr>
@@ -562,7 +563,14 @@
         </span>
         An error was encountered.
       </div>
-    {{else}}
+    {{else if error}}
+      <div class='po-paper-container'>
+        <span class='po-error-icon'>
+          <FlightIcon @name='alert-circle' />
+        </span>
+        {{message}}
+      </div>
+    {{else if (eq isLoaded 2)}}
       <Consul::Loader />
     {{/if}}
 

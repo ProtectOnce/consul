@@ -17,9 +17,9 @@ export default class PostureDetails extends Component {
 
   @action
   async handleWillRender(element) {
-    const token = await PoBackendAPI.getToken();
-    if (token) {
-      PoBackendAPI.getPostureIssues(token)
+    const isLoggedIn = PoBackendAPI.isLoggedIn();
+    if (isLoggedIn) {
+      PoBackendAPI.getPostureIssues()
         ?.then((apisData) => {
           if (apisData && apisData?.data && apisData?.data?.getPostureIssuesListForAPI) {
             const postureIssues = JSON.parse(apisData?.data?.getPostureIssuesListForAPI);

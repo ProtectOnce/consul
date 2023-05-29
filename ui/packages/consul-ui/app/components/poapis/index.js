@@ -21,13 +21,19 @@ import {
 export default class PoApis extends Component {
   @tracked apisList = [];
   @tracked apisDataFin = [];
-  @tracked dataIsLoaded = false;
   @service router;
 
   @tracked password = '';
   @tracked email = '';
-  @tracked loggedIn = this.checkLoggedIn();
+  @tracked loggedIn = PoBackendAPI.isLoggedIn();
+  @tracked isLoaded = 0;
   @tracked error = false;
+  @tracked message = '';
+  @tracked handleReload = () => {
+    console.log(PoBackendAPI.PO_APPLICATION_ID);
+    // this.renderData();
+    this.fetchAllData();
+  };
 
   REST_IMAGE_URI = '/ui/assets/images/apiTypes/rest.svg';
   GRPC_IMAGE_URI = '/ui/assets/images/apiTypes/grpc.svg';
@@ -35,12 +41,6 @@ export default class PoApis extends Component {
   constructor() {
     super(...arguments);
   }
-
-  checkLoggedIn = () => {
-    const areYou = PoBackendAPI.isLoggedIn();
-    console.log('logged in, ', areYou);
-    return areYou;
-  };
 
   createData = (apis) => {
     if (apis && apis?.length > 0) {
@@ -87,40 +87,62 @@ export default class PoApis extends Component {
   }
 
   renderData = async () => {
-    const token = await PoBackendAPI.getToken();
-    if (token) {
-      PoBackendAPI.getAPIRoutes(token)
+    const isLoggedIn = PoBackendAPI.isLoggedIn();
+    if (isLoggedIn) {
+      set(this, 'isLoaded', 2);
+      PoBackendAPI.getAPIRoutes()
         ?.then((apisData) => {
           if (apisData && apisData?.data && apisData?.data?.getAPIRoutes) {
             const apis = JSON.parse(apisData?.data?.getAPIRoutes);
             if (apis?.status == 200) {
-              if (apis && apis?.body && apis?.body?.routes && Array.isArray(apis?.body?.routes)) {
+              if (apis && apis?.body && Array.isArray(apis?.body?.routes)) {
                 const finalApis = this.createData(apis?.body?.routes);
                 set(this, 'apisDataFin', finalApis);
-                set(this, 'isLoaded', true);
+                set(this, 'isLoaded', 1);
                 set(this, 'error', false);
+                if (apis?.body?.routes?.length === 0) {
+                  set(this, 'isLoaded', 0);
+                  set(this, 'message', 'No data for this application');
+                }
               }
             } else {
               set(this, 'error', true);
-              set(this, 'isLoaded', true);
+              set(this, 'isLoaded', 1);
               set(this, 'apisDataFin', []);
             }
           }
         })
         ?.catch((err) => {
-          set(this, 'isLoaded', true);
+          set(this, 'isLoaded', 1);
         });
     } else {
       set(this, 'loggedIn', false);
     }
   };
 
-  @action
-  async handleWillRender(element) {
-    if (this.loggedIn) {
-      this.renderData();
+  setWorkloadId = async () => {
+    const temp = await PoBackendAPI.getApplication();
+    if (temp && temp?.data && temp?.data.getApplication) {
+      let wok = JSON.parse(temp?.data?.getApplication);
+      if (
+        wok &&
+        wok?.workloadSet &&
+        Array.isArray(wok?.workloadSet) &&
+        wok?.workloadSet?.length > 0
+      ) {
+        PoBackendAPI.PO_WORKLOAD_ID = wok?.workloadSet[0]?.workloadId;
+        console.log('wok', wok);
+      }
     }
-  }
+  };
+
+  fetchAllData = async () => {
+    await this.setWorkloadId();
+    this.renderData();
+  };
+
+  @action
+  async handleWillRender(element) {}
 
   @action
   showDetails(event) {

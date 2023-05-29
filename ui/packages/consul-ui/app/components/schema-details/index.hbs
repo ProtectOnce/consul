@@ -41,7 +41,7 @@
         />
       {{/if}}
     </div>
-    {{#if true}}
+    {{#if false}}
       <div class='po-schema-selector'>
         <span class='select-status-code-text'>Select Status Code</span>
         <Hds::Dropdown @listPosition='bottom-left' @isInline={{true}} as |dd|>
@@ -50,6 +50,15 @@
             <dd.Interactive href='#' @text={{ss}} {{action 'selectCode' ss}} />
           {{/each}}
         </Hds::Dropdown>
+      </div>
+    {{else}}
+      <div class='po-schema-selector'>
+        <span class='select-status-code-text'>
+          Data for Status Code:
+        </span>
+        <span>
+          {{selectedStatusCode}}
+        </span>
       </div>
     {{/if}}
   </div>

@@ -416,7 +416,7 @@
         },
       },
       poapis: {
-        _options: { path: '/po-application-map',
+        _options: { path: '/po-api-insights',
       },
       },
       'routing-config': {
