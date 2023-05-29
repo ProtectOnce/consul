@@ -322,3 +322,20 @@ export const getSchemaData = (item) => {
 
   return transformedData;
 };
+
+export const getApiType = (item) => {
+  const type = {
+    REST: 'REST',
+    HTTP: 'REST',
+    HTTPS: 'REST',
+    GRPC: 'GRPC',
+    default: 'REST',
+    PROTOBUF: 'GRPC',
+  };
+
+  if (item && item?.protocol) {
+    return type[item?.protocol?.toUppercase() || 'REST'];
+  }
+
+  return 'REST';
+};

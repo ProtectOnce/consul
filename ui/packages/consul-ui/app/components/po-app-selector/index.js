@@ -15,7 +15,8 @@ export default class Poapis extends Component {
   globalAppData = {};
 
   @action
-  async handleWillRender(element) {
+  async handleWillRender() {
+    set(this, 'isLoaded', false);
     PoBackendAPI.getTenant()
       ?.then((data) => {
         if (data && data?.data && data?.data?.getTenant) {

@@ -6,6 +6,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { PoBackendAPI } from '../../poutils/api-service';
 import {
+  getApiType,
   getAuthType,
   getAverageRiskScore,
   getDrift,
@@ -30,13 +31,13 @@ export default class PoApis extends Component {
   @tracked error = false;
   @tracked message = '';
   @tracked handleReload = () => {
-    console.log(PoBackendAPI.PO_APPLICATION_ID);
-    // this.renderData();
     this.fetchAllData();
   };
 
-  REST_IMAGE_URI = '/ui/assets/images/apiTypes/rest.svg';
-  GRPC_IMAGE_URI = '/ui/assets/images/apiTypes/grpc.svg';
+  IMAGES = {
+    REST: '/ui/assets/images/apiTypes/rest.svg',
+    GRPC: '/ui/assets/images/apiTypes/grpc.svg',
+  };
 
   constructor() {
     super(...arguments);
@@ -46,9 +47,8 @@ export default class PoApis extends Component {
     if (apis && apis?.length > 0) {
       return apis?.map((item) => ({
         Service: getServiceName(item),
-        APIType: item?.method?.toUpperCase() === 'POST' ? 'REST' : 'gRPC',
-        APIImage:
-          item?.method?.toUpperCase() === 'POST' ? this.REST_IMAGE_URI : this.GRPC_IMAGE_URI,
+        APIType: getApiType(item),
+        APIImage: this.IMAGES[getApiType(item)],
         Host: getHost(item),
         Path: getPath(item),
         Method: getMethod(item),
@@ -121,6 +121,7 @@ export default class PoApis extends Component {
   };
 
   setWorkloadId = async () => {
+    set(this, 'isLoaded', 2);
     const temp = await PoBackendAPI.getApplication();
     if (temp && temp?.data && temp?.data.getApplication) {
       let wok = JSON.parse(temp?.data?.getApplication);
@@ -131,14 +132,16 @@ export default class PoApis extends Component {
         wok?.workloadSet?.length > 0
       ) {
         PoBackendAPI.PO_WORKLOAD_ID = wok?.workloadSet[0]?.workloadId;
-        console.log('wok', wok);
       }
     }
+    set(this, 'isLoaded', 1);
   };
 
   fetchAllData = async () => {
+    set(this, 'isLoaded', 2);
     await this.setWorkloadId();
     this.renderData();
+    set(this, 'isLoaded', 1);
   };
 
   @action

@@ -9,7 +9,6 @@ import { PoBackendAPI } from '../../poutils/api-service';
 export default class PostureDetails extends Component {
   @tracked apisList = [];
   @tracked apisDataFin = [];
-  @tracked dataIsLoaded = false;
   @tracked showModal = false;
   @tracked selectedPosture = {};
 
@@ -19,12 +18,18 @@ export default class PostureDetails extends Component {
   async handleWillRender(element) {
     const isLoggedIn = PoBackendAPI.isLoggedIn();
     if (isLoggedIn) {
+      set(this, 'isLoaded', false);
       PoBackendAPI.getPostureIssues()
         ?.then((apisData) => {
           if (apisData && apisData?.data && apisData?.data?.getPostureIssuesListForAPI) {
             const postureIssues = JSON.parse(apisData?.data?.getPostureIssuesListForAPI);
             if (postureIssues && Array.isArray(postureIssues)) {
-              set(this, 'postureIssues', postureIssues);
+              if (postureIssues?.length > 0) {
+                set(this, 'postureIssues', postureIssues);
+              } else {
+                set(this, 'message', 'No Posture Issues found for this API.');
+                set(this, 'postureIssues', []);
+              }
               set(this, 'isLoaded', true);
             }
           }

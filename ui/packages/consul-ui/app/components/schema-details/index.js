@@ -18,6 +18,7 @@ export default class Poapis extends Component {
 
   @action
   async handleWillRender(element) {
+    set(this, 'isLoaded', false);
     PoBackendAPI.getSchemaDetails()
       ?.then((data) => {
         if (data) {
