@@ -7,7 +7,7 @@ export default class ApiRoute extends Route {
     if (data) {
       const temp = JSON.parse(data);
       //   set(this, 'data', { name: temp.name, method: temp.method });
-      return { name: temp.name, method: temp.method };
+      return { name: temp.name, method: temp.method, backTo: temp.backTo, linkTo: temp?.linkTo };
     }
   }
 }

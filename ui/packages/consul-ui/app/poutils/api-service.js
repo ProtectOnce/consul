@@ -2,9 +2,9 @@ import ENV from 'consul-ui/config/environment';
 
 class PoBackend {
   FRONTEGG_URL = ENV.POVARS.FRONTEGG_URL;
-  FE_TOKEN = ENV.POVARS.FE_TOKEN;
-  AUTH_EMAIL = ENV.POVARS.AUTH_EMAIL;
-  AUTH_PASSWORD = ENV.POVARS.AUTH_PASSWORD;
+  // FE_TOKEN = ENV.POVARS.FE_TOKEN;
+  AUTH_EMAIL = ''; // ENV.POVARS.AUTH_EMAIL;
+  AUTH_PASSWORD = ''; // ENV.POVARS.AUTH_PASSWORD;
   XAPI_KEY = ENV.POVARS.XAPI_KEY;
   GRAPHQL_URL = ENV.POVARS.GRAPHQL_URL;
   PO_APPLICATION_ID = ENV.POVARS.PO_APPLICATION_ID;
@@ -13,19 +13,54 @@ class PoBackend {
   TOKEN_KEYWORD = 'po-authentication-token';
   APIDATA_KEYWORD = 'apiData';
 
+  setEmail(email) {
+    if (email !== null && email !== undefined && email !== '') {
+      this.AUTH_EMAIL = email;
+    }
+  }
+  setPassword(password) {
+    if (password !== null && password !== undefined && password !== '') {
+      this.AUTH_PASSWORD = password;
+    }
+  }
+
+  isLoggedIn = () => {
+    let poAuthenticationToken = this.getCookie(this.TOKEN_KEYWORD);
+    if (poAuthenticationToken) {
+      return true;
+    }
+    return false;
+  };
+
+  poLogout = () => {
+    const date = new Date();
+    date.setTime();
+    const expires = 'expires=' + date.toUTCString(-1);
+    `${encodeURIComponent(this.TOKEN_KEYWORD)}=;expires=${expires}; secure`;
+  };
+
   fetchToken = async () => {
     try {
-      const response = await fetch(this.FRONTEGG_URL, {
-        method: 'POST',
-        body: JSON.stringify({
-          email: this.AUTH_EMAIL,
-          password: this.AUTH_PASSWORD,
-          recaptchaToken: '',
-          invitationToken: '',
-        }),
-        headers: { 'Content-Type': 'application/json' },
-      });
-      return await response?.json();
+      if (
+        this.AUTH_EMAIL &&
+        this.AUTH_PASSWORD &&
+        this.AUTH_EMAIL !== '' &&
+        this.AUTH_PASSWORD !== ''
+      ) {
+        const response = await fetch(this.FRONTEGG_URL, {
+          method: 'POST',
+          body: JSON.stringify({
+            email: this.AUTH_EMAIL,
+            password: this.AUTH_PASSWORD,
+            recaptchaToken: '',
+            invitationToken: '',
+          }),
+          headers: { 'Content-Type': 'application/json' },
+        });
+        return await response?.json();
+      } else {
+        return { error: 'Invalid email or password' };
+      }
     } catch (err) {
       console.error(err);
       return {};
