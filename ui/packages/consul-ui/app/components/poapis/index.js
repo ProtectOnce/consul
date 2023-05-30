@@ -5,20 +5,7 @@ import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { PoBackendAPI } from '../../poutils/api-service';
-import {
-  getApiType,
-  getAuthType,
-  getAverageRiskScore,
-  getDrift,
-  getHost,
-  getIssues,
-  getMethod,
-  getPII,
-  getPath,
-  getSchemaData,
-  getServiceName,
-  getTrafficValue,
-} from './poutils';
+import { createData } from './poutils';
 export default class PoApis extends Component {
   @tracked apisList = [];
   @tracked apisDataFin = [];
@@ -34,41 +21,9 @@ export default class PoApis extends Component {
     this.fetchAllData();
   };
 
-  IMAGES = {
-    REST: '/ui/assets/images/apiTypes/rest.svg',
-    GRPC: '/ui/assets/images/apiTypes/grpc.svg',
-  };
-
   constructor() {
     super(...arguments);
   }
-
-  createData = (apis) => {
-    if (apis && apis?.length > 0) {
-      return apis?.map((item) => ({
-        Service: getServiceName(item),
-        APIType: getApiType(item),
-        APIImage: this.IMAGES[getApiType(item)],
-        Host: getHost(item),
-        Path: getPath(item),
-        Method: getMethod(item),
-        Risk: getAverageRiskScore(item),
-        Issues: getIssues(item),
-        PII: getPII(item),
-        Auth: getAuthType(item),
-        Internet:
-          item && typeof item?.internetfacing === 'string'
-            ? item?.internetfacing === 'TRUE'
-              ? true
-              : false
-            : '--',
-        Traffic: getTrafficValue(item),
-        Drifted: getDrift(item),
-        schemaData: getSchemaData(item),
-      }));
-    }
-    return [];
-  };
 
   verifyValue(event) {
     if (
@@ -86,24 +41,38 @@ export default class PoApis extends Component {
     return false;
   }
 
+  getUrl = () => {
+    let res = '';
+    if (window.location?.href) {
+      const currentUrl = window.location.href;
+      const urlBroken = currentUrl?.split('/');
+      const servicesIndex = urlBroken.indexOf('services');
+      if (servicesIndex > 0 && servicesIndex + 1 < urlBroken?.length) {
+        res = urlBroken[servicesIndex + 1];
+      }
+    }
+    return res;
+  };
+
   renderData = async () => {
     const isLoggedIn = PoBackendAPI.isLoggedIn();
     if (isLoggedIn) {
       set(this, 'isLoaded', 2);
-      PoBackendAPI.getAPIRoutes()
+      const url = this.getUrl();
+      PoBackendAPI.getAPIRoutes(url)
         ?.then((apisData) => {
           if (apisData && apisData?.data && apisData?.data?.getAPIRoutes) {
             const apis = JSON.parse(apisData?.data?.getAPIRoutes);
-            if (apis?.status == 200) {
-              if (apis && apis?.body && Array.isArray(apis?.body?.routes)) {
-                const finalApis = this.createData(apis?.body?.routes);
-                set(this, 'apisDataFin', finalApis);
-                set(this, 'isLoaded', 1);
-                set(this, 'error', false);
-                if (apis?.body?.routes?.length === 0) {
-                  set(this, 'isLoaded', 0);
-                  set(this, 'message', 'No data for this application');
-                }
+            if (apis?.status == 200 && apis?.body && Array.isArray(apis?.body?.routes)) {
+              let finalApis = [];
+              finalApis = createData(apis?.body?.routes);
+              set(this, 'apisDataFin', finalApis);
+              set(this, 'isLoaded', 1);
+              set(this, 'error', false);
+              if (apis?.body?.routes?.length === 0) {
+                set(this, 'isLoaded', 0);
+                set(this, 'message', 'No data for this application');
+                set(this, 'apisDataFin', []);
               }
             } else {
               set(this, 'error', true);

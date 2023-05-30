@@ -6,57 +6,68 @@
 <div {{did-insert this.handleWillRender}} class='po-container'>
   <div class='display-flex-container-zero-gap'></div>
   {{#if isLoaded}}
-    <Hds::Table>
-      <:head as |H|>
-        <H.Tr>
-          <H.Th>Posture Type</H.Th>
-          <H.Th>Severity</H.Th>
-        </H.Tr>
-      </:head>
-      <:body as |B|>
-        {{#each postureIssues as |item|}}
-          <B.Tr {{action 'showPostureDetails' item}}>
-            <B.Td class='po-table-cell'>
-              <div>
-                <span {{tooltip item.title}}>
-                  {{item.title}}
-                </span>
-              </div>
-            </B.Td>
-            <B.Td>
-              <div class='po-table-cell-child-severity'>
-                {{#if (eq item.severity 'critical')}}
-                  <span {{tooltip item.severity}} class='po-table-cell-child-severity-critical'>
-                    {{item.severity}}
+    {{#if (eq error false)}}
+      <Hds::Table>
+        <:head as |H|>
+          <H.Tr>
+            <H.Th>Posture Type</H.Th>
+            <H.Th>Severity</H.Th>
+          </H.Tr>
+        </:head>
+        <:body as |B|>
+          {{#each postureIssues as |item|}}
+            <B.Tr {{action 'showPostureDetails' item}}>
+              <B.Td class='po-table-cell'>
+                <div>
+                  <span {{tooltip item.title}}>
+                    {{item.title}}
                   </span>
-                {{else if (eq item.severity 'high')}}
-                  <span {{tooltip item.severity}} class='po-table-cell-child-severity-high'>
-                    {{item.severity}}
-                  </span>
+                </div>
+              </B.Td>
+              <B.Td>
+                <div class='po-table-cell-child-severity'>
+                  {{#if (eq item.severity 'critical')}}
+                    <span {{tooltip item.severity}} class='po-table-cell-child-severity-critical'>
+                      {{item.severity}}
+                    </span>
+                  {{else if (eq item.severity 'high')}}
+                    <span {{tooltip item.severity}} class='po-table-cell-child-severity-high'>
+                      {{item.severity}}
+                    </span>
 
-                {{else if (eq item.severity 'medium')}}
-                  <span {{tooltip item.severity}} class='po-table-cell-child-severity-medium'>
-                    {{item.severity}}
-                  </span>
+                  {{else if (eq item.severity 'medium')}}
+                    <span {{tooltip item.severity}} class='po-table-cell-child-severity-medium'>
+                      {{item.severity}}
+                    </span>
 
-                {{else if (eq item.severity 'Medium')}}
-                  <span {{tooltip item.severity}} class='po-table-cell-child-severity-Medium'>
-                    {{item.severity}}
-                  </span>
+                  {{else if (eq item.severity 'Medium')}}
+                    <span {{tooltip item.severity}} class='po-table-cell-child-severity-Medium'>
+                      {{item.severity}}
+                    </span>
 
-                {{else}}
-                  <span {{tooltip item.severity}} class='po-table-cell-child-severity-low'>
-                    {{item.severity}}
-                  </span>
-                {{/if}}
-              </div>
-            </B.Td>
-          </B.Tr>
-        {{/each}}
-      </:body>
-    </Hds::Table>
+                  {{else}}
+                    <span {{tooltip item.severity}} class='po-table-cell-child-severity-low'>
+                      {{item.severity}}
+                    </span>
+                  {{/if}}
+                </div>
+              </B.Td>
+            </B.Tr>
+          {{/each}}
+        </:body>
+      </Hds::Table>
+    {{/if}}
   {{else}}
     <Consul::Loader />
+  {{/if}}
+
+  {{#if error}}
+    <div class='po-paper-container'>
+      <span class='po-error-icon'>
+        <FlightIcon @name='alert-circle' />
+      </span>
+      {{message}}
+    </div>
   {{/if}}
 
   {{#if showModal}}

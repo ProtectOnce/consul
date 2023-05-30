@@ -27,7 +27,7 @@
           <H.Tr>
             <H.Th>Service</H.Th>
             <H.Th>API Type</H.Th>
-            <H.Th>Host</H.Th>
+            {{! <H.Th>Host</H.Th> }}
             <H.Th>Path</H.Th>
             <H.Th>Method</H.Th>
             <H.Th>Risk</H.Th>
@@ -54,13 +54,13 @@
                 <img {{tooltip item.APIType}} src={{item.APIImage}} class='api-type-image' />
                 {{! </div> }}
               </B.Td>
-              <B.Td class='po-table-cell'>
+              {{!-- <B.Td class='po-table-cell'>
                 <div class='po-table-cell-child-Host'>
                   <span {{tooltip item.Host}}>
                     {{item.Host}}
                   </span>
                 </div>
-              </B.Td>
+              </B.Td> --}}
               <B.Td class='po-table-cell'>
                 <div class='po-table-cell-child' {{tooltip item.Path}}>
                   {{item.Path}}

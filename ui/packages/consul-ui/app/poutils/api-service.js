@@ -149,10 +149,33 @@ class PoBackend {
     }
   };
 
-  getAPIRoutes = async () => {
+  getAPIRoutes = async (input = '') => {
     try {
       // return poapislist;
       const token = this.getCookie(this.TOKEN_KEYWORD);
+
+      const mustList = [
+        {
+          match_all: {},
+        },
+        {
+          term: {
+            'api.metadata.appId.keyword': this.PO_APPLICATION_ID,
+          },
+        },
+        {
+          term: {
+            'api.metadata.workloadId.keyword': this.PO_WORKLOAD_ID,
+          },
+        },
+      ];
+      if (typeof input === 'string' && input !== '') {
+        mustList?.push({
+          terms: {
+            'api.route.service.displayName.keyword': [`service-${input}`],
+          },
+        });
+      }
       const response = await fetch(this.GRAPHQL_URL, {
         body: JSON.stringify({
           query: `query ($limit: Int, $nextToken: Int, $returnAllRoutes: Boolean, $query: String!, $application_id: String, $searchTerm: String) {
@@ -161,21 +184,7 @@ class PoBackend {
           variables: {
             query: JSON.stringify({
               bool: {
-                must: [
-                  {
-                    match_all: {},
-                  },
-                  {
-                    term: {
-                      'api.metadata.appId.keyword': this.PO_APPLICATION_ID,
-                    },
-                  },
-                  {
-                    term: {
-                      'api.metadata.workloadId.keyword': this.PO_WORKLOAD_ID,
-                    },
-                  },
-                ],
+                must: mustList,
               },
             }),
             searchTerm: '',
