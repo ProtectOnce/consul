@@ -172,7 +172,14 @@
 }
 
 .po-breadcrumb-link {
+  color: rgb(var(--tone-gray-500));
+  text-decoration: none;
   white-space: nowrap;
+  &:hover {
+    color: rgb(var(--tone-blue-500));
+    text-decoration: underline;
+    white-space: nowrap;
+  }
 }
 
 .po-group-button {
@@ -210,4 +217,38 @@
 
 .po-table-cell-schema-text {
   white-space: normal;
+}
+
+.po-centerd-button-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 76vh;
+  width: 100%;
+  height: 100%;
+}
+
+.po-display-flex {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+}
+
+.po-login-message {
+  font-size: 0.9rem;
+  color: rgb(var(--tone-gray-500));
+}
+
+.po-login-modal-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+}
+
+.po-error-icon {
+  margin-right: 0.6rem;
+  color: rgb(var(--token-color-foreground-critical));
 }

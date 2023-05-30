@@ -1,0 +1,23 @@
+{{!
+  Copyright (c) HashiCorp, Inc.
+  SPDX-License-Identifier: MPL-2.0
+}}
+
+<div {{did-insert this.handleWillRender}} class='po-container'>
+
+  <div class='po-schema-selector'>
+    <span class='select-status-code-text'>Select Applicaiton</span>
+    <Hds::Dropdown @listPosition='bottom-left' @isInline={{true}} @height='20rem' as |dd|>
+      <dd.ToggleButton
+        @text={{selectedApp.application_name}}
+        @color='secondary'
+        size='small'
+        style='width:15rem !important;'
+      />
+      {{#each applications as |app|}}
+        <dd.Interactive href='#' @text={{app.application_name}} {{action 'selectApp' app}} />
+      {{/each}}
+    </Hds::Dropdown>
+  </div>
+
+</div>

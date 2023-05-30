@@ -1,5 +1,11 @@
 export const getServiceName = (item) => {
   let res = 'Service';
+  const serviceType = getServiceIconType(item);
+  if (serviceType === 'consulNode') {
+    if (item?.service && Array.isArray(item.service) && item?.service?.length > 0) {
+      return item?.service[0]?.displayName?.replace('service-', '');
+    }
+  }
 
   if (item && item?.resourceSet && item?.resourceSet?.length > 0) {
     for (const resource of item?.resourceSet) {
@@ -72,6 +78,9 @@ export const getServiceIconType = (item) => {
         type = tempType;
       }
       if (tempType === 'k8s') {
+        type = tempType;
+      }
+      if (tempType === 'consulNode') {
         type = tempType;
       }
     }
@@ -321,4 +330,57 @@ export const getSchemaData = (item) => {
   transformData[selectedStatusCode];
 
   return transformedData;
+};
+
+export const getApiType = (item) => {
+  const type = {
+    REST: 'REST',
+    HTTP: 'REST',
+    HTTPS: 'REST',
+    GRPC: 'GRPC',
+    default: 'REST',
+    PROTOBUF: 'GRPC',
+  };
+
+  if (item && item?.protocol) {
+    return type[item?.protocol?.toUpperCase() || 'REST'];
+  }
+
+  return 'REST';
+};
+
+export const createData = (apis) => {
+  const res = [];
+
+  const IMAGES = {
+    REST: '/ui/assets/images/apiTypes/rest.svg',
+    GRPC: '/ui/assets/images/apiTypes/grpc.svg',
+  };
+
+  if (apis && apis?.length > 0) {
+    apis?.forEach((item) => {
+      res?.push({
+        Service: getServiceName(item),
+        APIType: getApiType(item),
+        APIImage: IMAGES[getApiType(item)],
+        // Host: getHost(item),
+        Path: getPath(item),
+        Method: getMethod(item),
+        Risk: getAverageRiskScore(item),
+        Issues: getIssues(item),
+        PII: getPII(item),
+        Auth: getAuthType(item),
+        Internet:
+          item && typeof item?.internetfacing === 'string'
+            ? item?.internetfacing === 'TRUE'
+              ? true
+              : false
+            : '--',
+        Traffic: getTrafficValue(item),
+        Drifted: getDrift(item),
+        schemaData: getSchemaData(item),
+      });
+    });
+  }
+  return res;
 };

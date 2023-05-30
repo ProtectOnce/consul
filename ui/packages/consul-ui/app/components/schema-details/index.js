@@ -9,14 +9,16 @@ export default class Poapis extends Component {
   @tracked apisList = [];
   @tracked apisDataFin = [];
   @service router;
-  globalSchemaData = {};
   @tracked selectedStatusCode = '200';
   @tracked schemaData = [];
-
+  @tracked showSelector = false;
   @tracked activeTab = 'request';
+
+  globalSchemaData = {};
 
   @action
   async handleWillRender(element) {
+    set(this, 'isLoaded', false);
     PoBackendAPI.getSchemaDetails()
       ?.then((data) => {
         if (data) {
