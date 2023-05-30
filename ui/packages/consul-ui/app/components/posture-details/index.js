@@ -27,7 +27,6 @@ export default class PostureDetails extends Component {
             if (apisData?.data?.getPostureIssuesListForAPI !== null) {
               const postureIssues = JSON.parse(apisData?.data?.getPostureIssuesListForAPI);
               if (postureIssues) {
-                console.log('postureissues', postureIssues);
                 set(this, 'error', false);
                 set(this, 'postureIssues', postureIssues);
               }
