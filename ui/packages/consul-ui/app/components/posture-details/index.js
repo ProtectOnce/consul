@@ -23,33 +23,22 @@ export default class PostureDetails extends Component {
       set(this, 'isLoaded', false);
       PoBackendAPI.getPostureIssues()
         ?.then((apisData) => {
-          if (
-            apisData &&
-            apisData?.data &&
-            Array.isArray(apisData?.data?.getPostureIssuesListForAPI)
-          ) {
-            const postureIssues = JSON.parse(apisData?.data?.getPostureIssuesListForAPI);
-            if (postureIssues && Array.isArray(postureIssues)) {
-              if (postureIssues?.length > 0) {
-                set(this, 'postureIssues', postureIssues);
+          if (apisData && apisData?.data) {
+            if (apisData?.data?.getPostureIssuesListForAPI !== null) {
+              const postureIssues = JSON.parse(apisData?.data?.getPostureIssuesListForAPI);
+              if (postureIssues) {
                 set(this, 'error', false);
-              } else {
-                set(this, 'message', 'No Posture Issues found for this API.');
-                set(this, 'postureIssues', []);
-                set(this, 'error', true);
+                set(this, 'postureIssues', postureIssues);
               }
+            } else if (apisData?.data?.getPostureIssuesListForAPI === null) {
+              set(this, 'postureIssues', []);
+              set(this, 'message', 'No Posture Issues found for this API.');
+              set(this, 'postureIssues', []);
+            } else {
+              set(this, 'postureIssues', []);
+              set(this, 'error', true);
             }
             set(this, 'isLoaded', true);
-          } else if (
-            apisData &&
-            apisData?.data &&
-            apisData?.data?.getPostureIssuesListForAPI === null
-          ) {
-            set(this, 'isLoaded', true);
-            set(this, 'message', 'No Posture Issues found for this API.');
-            set(this, 'error', true);
-
-            set(this, 'postureIssues', []);
           }
         })
         ?.catch((err) => {
