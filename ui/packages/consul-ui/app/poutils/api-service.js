@@ -214,33 +214,37 @@ class PoBackend {
     try {
       // return postureIssuesList;
       const token = this.getCookie(this.TOKEN_KEYWORD);
-      const response = await fetch(this.GRAPHQL_URL, {
-        body: JSON.stringify({
-          query: `query ($applicationId: String!, $workloadId: String!, $path: String!, $method: String!) {
-            getPostureIssuesListForAPI(
-              applicationId: $applicationId
-              workloadId: $workloadId
-              path: $path
-              method: $method
-            )
-          }`,
-          variables: {
-            applicationId: this.PO_APPLICATION_ID,
-            workloadId: this.PO_WORKLOAD_ID,
-            path: '/',
-            method: 'GET',
+      const apiData = this.getAPIdata();
+      if ('name' in apiData && 'method' in apiData) {
+        const response = await fetch(this.GRAPHQL_URL, {
+          body: JSON.stringify({
+            query: `query ($applicationId: String!, $workloadId: String!, $path: String!, $method: String!) {
+              getPostureIssuesListForAPI(
+                applicationId: $applicationId
+                workloadId: $workloadId
+                path: $path
+                method: $method
+              )
+            }`,
+            variables: {
+              applicationId: this.PO_APPLICATION_ID,
+              workloadId: this.PO_WORKLOAD_ID,
+              path: apiData?.name,
+              method: apiData?.method,
+            },
+          }),
+          method: 'POST',
+          headers: {
+            authorization: token,
+            getapitokenauth: token,
+            'content-type': 'application/json',
+            'x-api-key': this.XAPI_KEY,
           },
-        }),
-        method: 'POST',
-        headers: {
-          authorization: token,
-          getapitokenauth: token,
-          'content-type': 'application/json',
-          'x-api-key': this.XAPI_KEY,
-        },
-      });
+        });
 
-      return response?.json();
+        return response?.json();
+      }
+      return {};
     } catch (err) {
       console.error(err);
       return {};
@@ -253,6 +257,14 @@ class PoBackend {
       return true;
     }
     return false;
+  };
+
+  getAPIdata = () => {
+    const data = window.localStorage.getItem(this.APIDATA_KEYWORD);
+    if (data && data !== null) {
+      return JSON.parse(data);
+    }
+    return [];
   };
 
   getSchemaDetails = async (token, api, method) => {
