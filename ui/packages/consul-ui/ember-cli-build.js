@@ -155,6 +155,9 @@ module.exports = function (defaults, $ = process.env) {
       productionEnvironments: prodlike,
     }),
     {
+      fingerprint: {
+        exclude: ['/assets/images'],
+      },
       trees: trees,
       addons: addons,
       outputPaths: outputPaths,
@@ -305,5 +308,9 @@ module.exports = function (defaults, $ = process.env) {
   app.import('vendor/init.js', {
     outputFile: 'assets/init.js',
   });
+  // app.import('vendor/webcomponents/direflowBundle.js', {
+  //   outputFile: 'assets/webcomponents/direflowBundle.js',
+  // });
+
   return app.toTree();
 };

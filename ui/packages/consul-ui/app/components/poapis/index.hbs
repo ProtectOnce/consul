@@ -1,0 +1,549 @@
+{{!
+  Copyright (c) HashiCorp, Inc.
+  SPDX-License-Identifier: MPL-2.0
+}}
+
+<div {{did-insert this.handleWillRender}}>
+
+  <h5 class='powered-by'>
+    Powered by
+    <a class='powered-by-link' href='https://protectonce.com/' target='_blank'>
+      {{! <img
+        src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjA0IiBoZWlnaHQ9IjM2IiB2aWV3Qm94PSIwIDAgMjA0IDM2IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNNDMuMjI2MSAyNy42OTJWOC4zMDc0MUg1MC4zNjYxQzUxLjkwOTkgOC4zMDc0MSA1My4xODcyIDguNTY1ODcgNTQuMTk4IDkuMDgyNzlDNTUuMjA4NyA5LjU5OTcxIDU1Ljk2MjMgMTAuMzEwNSA1Ni40NTg1IDExLjIxNTFDNTYuOTU0NyAxMi4xMTk3IDU3LjIwMjggMTMuMTM1MSA1Ny4yMDI4IDE0LjI2MTNDNTcuMjAyOCAxNS4zMzIgNTYuOTY0IDE2LjMxOTggNTYuNDg2MSAxNy4yMjQzQzU2LjAwODIgMTguMTEwNSA1NS4yNjM5IDE4LjgzMDUgNTQuMjUzMSAxOS4zODQzQzUzLjI0MjMgMTkuOTE5OCA1MS45NDY3IDIwLjE4NzQgNTAuMzY2MSAyMC4xODc0SDQ2Ljc1NDdWMjcuNjkySDQzLjIyNjFaTTQ2Ljc1NDcgMTcuMzA3NEg1MC4xNDU1QzUxLjM3NjggMTcuMzA3NCA1Mi4yNTkgMTcuMDM5OCA1Mi43OTIgMTYuNTA0M0M1My4zNDM0IDE1Ljk1MDUgNTMuNjE5IDE1LjIwMjggNTMuNjE5IDE0LjI2MTNDNTMuNjE5IDEzLjMwMTMgNTMuMzQzNCAxMi41NTM2IDUyLjc5MiAxMi4wMTgyQzUyLjI1OSAxMS40NjQzIDUxLjM3NjggMTEuMTg3NCA1MC4xNDU1IDExLjE4NzRINDYuNzU0N1YxNy4zMDc0Wk01OC43ODU4IDI3LjY5MlYxMy45NTY2SDYxLjkyODVMNjIuMjU5MyAxNi41MzJDNjIuNzU1NSAxNS42NDU5IDYzLjQyNjMgMTQuOTQ0MyA2NC4yNzE3IDE0LjQyNzRDNjUuMTM1NSAxMy44OTIgNjYuMTQ2MyAxMy42MjQzIDY3LjMwNDEgMTMuNjI0M1YxNy4zNjI4SDY2LjMxMTdDNjUuNTM5OCAxNy4zNjI4IDY0Ljg1MDYgMTcuNDgyOCA2NC4yNDQxIDE3LjcyMjhDNjMuNjM3NyAxNy45NjI3IDYzLjE1OTkgMTguMzc4MSA2Mi44MTA2IDE4Ljk2ODlDNjIuNDc5OCAxOS41NTk4IDYyLjMxNDQgMjAuMzgxMiA2Mi4zMTQ0IDIxLjQzMzZWMjcuNjkySDU4Ljc4NThaTTc0LjkzMiAyOC4wMjQzQzczLjYwODcgMjguMDI0MyA3Mi40MTQyIDI3LjcxOTcgNzEuMzQ4MiAyNy4xMTA1QzcwLjMwMDYgMjYuNTAxMiA2OS40NjQ1IDI1LjY2MTIgNjguODM5NSAyNC41OTA1QzY4LjIzMyAyMy41MDEyIDY3LjkyOTggMjIuMjQ1OSA2Ny45Mjk4IDIwLjgyNDNDNjcuOTI5OCAxOS40MDI3IDY4LjI0MjMgMTguMTU2NiA2OC44NjcxIDE3LjA4NTlDNjkuNDkyIDE1Ljk5NjYgNzAuMzI4MiAxNS4xNDc0IDcxLjM3NTcgMTQuNTM4MkM3Mi40NDE4IDEzLjkyODkgNzMuNjM2MyAxMy42MjQzIDc0Ljk1OTUgMTMuNjI0M0M3Ni4yNjQ0IDEzLjYyNDMgNzcuNDQwNiAxMy45Mjg5IDc4LjQ4ODIgMTQuNTM4MkM3OS41NTQyIDE1LjE0NzQgODAuMzkwMyAxNS45OTY2IDgwLjk5NjggMTcuMDg1OUM4MS42MjE4IDE4LjE1NjYgODEuOTM0MSAxOS40MDI3IDgxLjkzNDEgMjAuODI0M0M4MS45MzQxIDIyLjI0NTkgODEuNjIxOCAyMy41MDEyIDgwLjk5NjggMjQuNTkwNUM4MC4zOTAzIDI1LjY2MTIgNzkuNTU0MiAyNi41MDEyIDc4LjQ4ODIgMjcuMTEwNUM3Ny40MjIzIDI3LjcxOTcgNzYuMjM2OSAyOC4wMjQzIDc0LjkzMiAyOC4wMjQzWk03NC45MzIgMjQuOTUwNUM3NS44NTA5IDI0Ljk1MDUgNzYuNjUwNCAyNC42MDg5IDc3LjMzMDMgMjMuOTI1OUM3OC4wMTA0IDIzLjIyNDMgNzguMzUwMyAyMi4xOTA1IDc4LjM1MDMgMjAuODI0M0M3OC4zNTAzIDE5LjQ1ODEgNzguMDEwNCAxOC40MzM1IDc3LjMzMDMgMTcuNzUwNUM3Ni42NTA0IDE3LjA0ODkgNzUuODYwMiAxNi42OTgyIDc0Ljk1OTUgMTYuNjk4MkM3NC4wMjIyIDE2LjY5ODIgNzMuMjEzNyAxNy4wNDg5IDcyLjUzMzYgMTcuNzUwNUM3MS44NzE5IDE4LjQzMzUgNzEuNTQxMSAxOS40NTgxIDcxLjU0MTEgMjAuODI0M0M3MS41NDExIDIyLjE5MDUgNzEuODcxOSAyMy4yMjQzIDcyLjUzMzYgMjMuOTI1OUM3My4yMTM3IDI0LjYwODkgNzQuMDEzMSAyNC45NTA1IDc0LjkzMiAyNC45NTA1Wk04OS41NDA0IDI3LjY5MkM4OC4xMDY5IDI3LjY5MiA4Ni45NTgzIDI3LjM0MTMgODYuMDk0NSAyNi42Mzk3Qzg1LjIzMDggMjUuOTM4MSA4NC43OTg4IDI0LjY5MiA4NC43OTg4IDIyLjkwMTNWMTYuOTE5N0g4Mi40NTU2VjEzLjk1NjZIODQuNzk4OEw4NS4yMTIzIDEwLjI3MzZIODguMzI3NFYxMy45NTY2SDkyLjAyMTVWMTYuOTE5N0g4OC4zMjc0VjIyLjkyODlDODguMzI3NCAyMy41OTM2IDg4LjQ2NTMgMjQuMDU1IDg4Ljc0MSAyNC4zMTM2Qzg5LjAzNTEgMjQuNTUzNSA4OS41MzEzIDI0LjY3MzYgOTAuMjI5NiAyNC42NzM2SDkxLjkzODhWMjcuNjkySDg5LjU0MDRaTTEwMC4yNDIgMjguMDI0M0M5OC44NjM5IDI4LjAyNDMgOTcuNjQxNyAyNy43MjkgOTYuNTc1OCAyNy4xMzgyQzk1LjUwOTkgMjYuNTQ3NCA5NC42NzM2IDI1LjcxNjYgOTQuMDY3MSAyNC42NDU5QzkzLjQ2MDcgMjMuNTc1MSA5My4xNTc0IDIyLjMzODEgOTMuMTU3NCAyMC45MzUxQzkzLjE1NzQgMTkuNTEzNSA5My40NTE0IDE4LjI0ODkgOTQuMDM5NiAxNy4xNDEzQzk0LjY0NjEgMTYuMDMzNiA5NS40NzMxIDE1LjE3NTEgOTYuNTIwNyAxNC41NjU5Qzk3LjU4NjYgMTMuOTM4MiA5OC44MzYzIDEzLjYyNDMgMTAwLjI3IDEzLjYyNDNDMTAxLjYxMSAxMy42MjQzIDEwMi43OTcgMTMuOTE5NyAxMDMuODI2IDE0LjUxMDVDMTA0Ljg1NSAxNS4xMDEzIDEwNS42NTUgMTUuOTEzNSAxMDYuMjI0IDE2Ljk0NzRDMTA2LjgxMyAxNy45NjI3IDEwNy4xMDcgMTkuMDk4MSAxMDcuMTA3IDIwLjM1MzZDMTA3LjEwNyAyMC41NTY3IDEwNy4wOTcgMjAuNzY4OSAxMDcuMDc5IDIwLjk5MDVDMTA3LjA3OSAyMS4yMTIgMTA3LjA3IDIxLjQ0MjggMTA3LjA1MSAyMS42ODI4SDk2LjY1ODVDOTYuNzMyIDIyLjc1MzUgOTcuMDk5NiAyMy41OTM2IDk3Ljc2MTIgMjQuMjAyOEM5OC40NDEyIDI0LjgxMiA5OS4yNTkxIDI1LjExNjYgMTAwLjIxNSAyNS4xMTY2QzEwMC45MzEgMjUuMTE2NiAxMDEuNTI5IDI0Ljk1OTggMTAyLjAwNyAyNC42NDU5QzEwMi41MDMgMjQuMzEzNiAxMDIuODcgMjMuODg4OSAxMDMuMTA5IDIzLjM3MkgxMDYuNjkzQzEwNi40MzYgMjQuMjM5OCAxMDYuMDA0IDI1LjAzMzYgMTA1LjM5NyAyNS43NTM2QzEwNC44MDkgMjYuNDU1MSAxMDQuMDc0IDI3LjAwOSAxMDMuMTkyIDI3LjQxNTFDMTAyLjMyOCAyNy44MjEyIDEwMS4zNDUgMjguMDI0MyAxMDAuMjQyIDI4LjAyNDNaTTEwMC4yNyAxNi41MDQzQzk5LjQwNiAxNi41MDQzIDk4LjY0MzQgMTYuNzUzNiA5Ny45ODE3IDE3LjI1MkM5Ny4zMjAxIDE3LjczMjEgOTYuODk3NCAxOC40NzA1IDk2LjcxMzYgMTkuNDY3NEgxMDMuNTIzQzEwMy40NjggMTguNTYyOCAxMDMuMTM3IDE3Ljg0MjggMTAyLjUzIDE3LjMwNzRDMTAxLjkyNCAxNi43NzIgMTAxLjE3IDE2LjUwNDMgMTAwLjI3IDE2LjUwNDNaTTExNS42NzEgMjguMDI0M0MxMTQuMjc0IDI4LjAyNDMgMTEzLjA0MiAyNy43MTk3IDExMS45NzcgMjcuMTEwNUMxMTAuOTExIDI2LjUwMTIgMTEwLjA2NSAyNS42NTIxIDEwOS40NCAyNC41NjI4QzEwOC44MzQgMjMuNDczNSAxMDguNTMxIDIyLjIyNzQgMTA4LjUzMSAyMC44MjQzQzEwOC41MzEgMTkuNDIxMyAxMDguODM0IDE4LjE3NTEgMTA5LjQ0IDE3LjA4NTlDMTEwLjA2NSAxNS45OTY2IDExMC45MTEgMTUuMTQ3NCAxMTEuOTc3IDE0LjUzODJDMTEzLjA0MiAxMy45Mjg5IDExNC4yNzQgMTMuNjI0MyAxMTUuNjcxIDEzLjYyNDNDMTE3LjQxNyAxMy42MjQzIDExOC44ODcgMTQuMDg1OCAxMjAuMDgxIDE1LjAwODlDMTIxLjI3NiAxNS45MTM1IDEyMi4wMzkgMTcuMTY4OSAxMjIuMzcgMTguNzc1MUgxMTguNjQ4QzExOC40NjQgMTguMTEwNSAxMTguMDk3IDE3LjU5MzYgMTE3LjU0NSAxNy4yMjQzQzExNy4wMTIgMTYuODM2NiAxMTYuMzc4IDE2LjY0MjggMTE1LjY0MyAxNi42NDI4QzExNC42NjkgMTYuNjQyOCAxMTMuODQyIDE3LjAxMjEgMTEzLjE2MiAxNy43NTA1QzExMi40ODIgMTguNDg4OSAxMTIuMTQyIDE5LjUxMzUgMTEyLjE0MiAyMC44MjQzQzExMi4xNDIgMjIuMTM1MSAxMTIuNDgyIDIzLjE1OTggMTEzLjE2MiAyMy44OTgyQzExMy44NDIgMjQuNjM2NiAxMTQuNjY5IDI1LjAwNTkgMTE1LjY0MyAyNS4wMDU5QzExNi4zNzggMjUuMDA1OSAxMTcuMDEyIDI0LjgyMTMgMTE3LjU0NSAyNC40NTJDMTE4LjA5NyAyNC4wODI3IDExOC40NjQgMjMuNTU2NiAxMTguNjQ4IDIyLjg3MzZIMTIyLjM3QzEyMi4wMzkgMjQuNDI0MyAxMjEuMjc2IDI1LjY3MDUgMTIwLjA4MSAyNi42MTJDMTE4Ljg4NyAyNy41NTM2IDExNy40MTcgMjguMDI0MyAxMTUuNjcxIDI4LjAyNDNaTTEzMC4zMDMgMjcuNjkyQzEyOC44NjkgMjcuNjkyIDEyNy43MjEgMjcuMzQxMyAxMjYuODU3IDI2LjYzOTdDMTI1Ljk5MyAyNS45MzgxIDEyNS41NjEgMjQuNjkyIDEyNS41NjEgMjIuOTAxM1YxNi45MTk3SDEyMy4yMThWMTMuOTU2NkgxMjUuNTYxTDEyNS45NzUgMTAuMjczNkgxMjkuMDlWMTMuOTU2NkgxMzIuNzg0VjE2LjkxOTdIMTI5LjA5VjIyLjkyODlDMTI5LjA5IDIzLjU5MzYgMTI5LjIyOCAyNC4wNTUgMTI5LjUwMyAyNC4zMTM2QzEyOS43OTcgMjQuNTUzNSAxMzAuMjk0IDI0LjY3MzYgMTMwLjk5MiAyNC42NzM2SDEzMi43MDFWMjcuNjkySDEzMC4zMDNaTTE0My44MzUgMjguMDI0M0MxNDEuOTA2IDI4LjAyNDMgMTQwLjIxNiAyNy41OTk3IDEzOC43NjMgMjYuNzUwNUMxMzcuMzMgMjUuOTAxMyAxMzYuMiAyNC43Mjg5IDEzNS4zNzIgMjMuMjMzNkMxMzQuNTY0IDIxLjcxOTggMTM0LjE1OSAxOS45NzUxIDEzNC4xNTkgMTcuOTk5N0MxMzQuMTU5IDE2LjAyNDMgMTM0LjU2NCAxNC4yODg5IDEzNS4zNzIgMTIuNzkzNkMxMzYuMiAxMS4yNzk3IDEzNy4zMyAxMC4wOTgyIDEzOC43NjMgOS4yNDg5NEMxNDAuMjE2IDguMzk5NzIgMTQxLjkwNiA3Ljk3NTEgMTQzLjgzNSA3Ljk3NTFDMTQ1Ljc0NyA3Ljk3NTEgMTQ3LjQyOSA4LjM5OTcyIDE0OC44OCA5LjI0ODk0QzE1MC4zMzMgMTAuMDk4MiAxNTEuNDYzIDExLjI3OTcgMTUyLjI3MSAxMi43OTM2QzE1My4wOCAxNC4yODg5IDE1My40ODQgMTYuMDI0MyAxNTMuNDg0IDE3Ljk5OTdDMTUzLjQ4NCAxOS45NzUxIDE1My4wOCAyMS43MTk4IDE1Mi4yNzEgMjMuMjMzNkMxNTEuNDYzIDI0LjcyODkgMTUwLjMzMyAyNS45MDEzIDE0OC44OCAyNi43NTA1QzE0Ny40MjkgMjcuNTk5NyAxNDUuNzQ3IDI4LjAyNDMgMTQzLjgzNSAyOC4wMjQzWk0xNDMuODM1IDI0LjgzOTdDMTQ1LjY3NCAyNC44Mzk3IDE0Ny4xMzUgMjQuMjMwNSAxNDguMjE5IDIzLjAxMkMxNDkuMzIxIDIxLjc5MzYgMTQ5Ljg3MyAyMC4xMjI3IDE0OS44NzMgMTcuOTk5N0MxNDkuODczIDE1Ljg3NjcgMTQ5LjMyMSAxNC4yMDU5IDE0OC4yMTkgMTIuOTg3NEMxNDcuMTM1IDExLjc2ODkgMTQ1LjY3NCAxMS4xNTk3IDE0My44MzUgMTEuMTU5N0MxNDEuOTk4IDExLjE1OTcgMTQwLjUyNyAxMS43Njg5IDEzOS40MjQgMTIuOTg3NEMxMzguMzIyIDE0LjIwNTkgMTM3Ljc3MSAxNS44NzY3IDEzNy43NzEgMTcuOTk5N0MxMzcuNzcxIDIwLjEyMjcgMTM4LjMyMiAyMS43OTM2IDEzOS40MjQgMjMuMDEyQzE0MC41MjcgMjQuMjMwNSAxNDEuOTk4IDI0LjgzOTcgMTQzLjgzNSAyNC44Mzk3Wk0xNTUuNDE1IDI3LjY5MlYxMy45NTY2SDE1OC41M0wxNTguODA2IDE2LjI4MjhDMTU5LjIyOCAxNS40NzA0IDE1OS44MzQgMTQuODI0NCAxNjAuNjI1IDE0LjM0NDNDMTYxLjQzMyAxMy44NjQzIDE2Mi4zOCAxMy42MjQzIDE2My40NjUgMTMuNjI0M0MxNjUuMTU1IDEzLjYyNDMgMTY2LjQ3IDE0LjE1OTggMTY3LjQwNyAxNS4yMzA1QzE2OC4zNDQgMTYuMzAxMiAxNjguODEzIDE3Ljg3MDUgMTY4LjgxMyAxOS45MzgyVjI3LjY5MkgxNjUuMjg0VjIwLjI3MDVDMTY1LjI4NCAxOS4wODkgMTY1LjA0NCAxOC4xODQzIDE2NC41NjcgMTcuNTU2NkMxNjQuMDg5IDE2LjkyOSAxNjMuMzQ1IDE2LjYxNTEgMTYyLjMzNSAxNi42MTUxQzE2MS4zNDIgMTYuNjE1MSAxNjAuNTIzIDE2Ljk2NTggMTU5Ljg4MSAxNy42Njc0QzE1OS4yNTUgMTguMzY5IDE1OC45NDQgMTkuMzQ3NCAxNTguOTQ0IDIwLjYwMjhWMjcuNjkySDE1NS40MTVaTTE3Ny43ODMgMjguMDI0M0MxNzYuMzg2IDI4LjAyNDMgMTc1LjE1NSAyNy43MTk3IDE3NC4wODkgMjcuMTEwNUMxNzMuMDIyIDI2LjUwMTIgMTcyLjE3OCAyNS42NTIxIDE3MS41NTMgMjQuNTYyOEMxNzAuOTQ3IDIzLjQ3MzUgMTcwLjY0MyAyMi4yMjc0IDE3MC42NDMgMjAuODI0M0MxNzAuNjQzIDE5LjQyMTMgMTcwLjk0NyAxOC4xNzUxIDE3MS41NTMgMTcuMDg1OUMxNzIuMTc4IDE1Ljk5NjYgMTczLjAyMiAxNS4xNDc0IDE3NC4wODkgMTQuNTM4MkMxNzUuMTU1IDEzLjkyODkgMTc2LjM4NiAxMy42MjQzIDE3Ny43ODMgMTMuNjI0M0MxNzkuNTI4IDEzLjYyNDMgMTgwLjk5OSAxNC4wODU4IDE4Mi4xOTQgMTUuMDA4OUMxODMuMzg4IDE1LjkxMzUgMTg0LjE1MSAxNy4xNjg5IDE4NC40ODIgMTguNzc1MUgxODAuNzYxQzE4MC41NzYgMTguMTEwNSAxODAuMjA5IDE3LjU5MzYgMTc5LjY1OCAxNy4yMjQzQzE3OS4xMjUgMTYuODM2NiAxNzguNDkxIDE2LjY0MjggMTc3Ljc1NiAxNi42NDI4QzE3Ni43ODEgMTYuNjQyOCAxNzUuOTU0IDE3LjAxMjEgMTc1LjI3NSAxNy43NTA1QzE3NC41OTQgMTguNDg4OSAxNzQuMjU1IDE5LjUxMzUgMTc0LjI1NSAyMC44MjQzQzE3NC4yNTUgMjIuMTM1MSAxNzQuNTk0IDIzLjE1OTggMTc1LjI3NSAyMy44OTgyQzE3NS45NTQgMjQuNjM2NiAxNzYuNzgxIDI1LjAwNTkgMTc3Ljc1NiAyNS4wMDU5QzE3OC40OTEgMjUuMDA1OSAxNzkuMTI1IDI0LjgyMTMgMTc5LjY1OCAyNC40NTJDMTgwLjIwOSAyNC4wODI3IDE4MC41NzYgMjMuNTU2NiAxODAuNzYxIDIyLjg3MzZIMTg0LjQ4MkMxODQuMTUxIDI0LjQyNDMgMTgzLjM4OCAyNS42NzA1IDE4Mi4xOTQgMjYuNjEyQzE4MC45OTkgMjcuNTUzNiAxNzkuNTI4IDI4LjAyNDMgMTc3Ljc4MyAyOC4wMjQzWk0xOTMuMTU1IDI4LjAyNDNDMTkxLjc3NyAyOC4wMjQzIDE5MC41NTQgMjcuNzI5IDE4OS40ODkgMjcuMTM4MkMxODguNDIyIDI2LjU0NzQgMTg3LjU4NiAyNS43MTY2IDE4Ni45OCAyNC42NDU5QzE4Ni4zNzMgMjMuNTc1MSAxODYuMDcgMjIuMzM4MSAxODYuMDcgMjAuOTM1MUMxODYuMDcgMTkuNTEzNSAxODYuMzY0IDE4LjI0ODkgMTg2Ljk1MiAxNy4xNDEzQzE4Ny41NTkgMTYuMDMzNiAxODguMzg2IDE1LjE3NTEgMTg5LjQzMyAxNC41NjU5QzE5MC40OTkgMTMuOTM4MiAxOTEuNzQ5IDEzLjYyNDMgMTkzLjE4MyAxMy42MjQzQzE5NC41MjQgMTMuNjI0MyAxOTUuNzA5IDEzLjkxOTcgMTk2LjczOSAxNC41MTA1QzE5Ny43NjcgMTUuMTAxMyAxOTguNTY3IDE1LjkxMzUgMTk5LjEzNyAxNi45NDc0QzE5OS43MjQgMTcuOTYyNyAyMDAuMDE5IDE5LjA5ODEgMjAwLjAxOSAyMC4zNTM2QzIwMC4wMTkgMjAuNTU2NyAyMDAuMDEgMjAuNzY4OSAxOTkuOTkyIDIwLjk5MDVDMTk5Ljk5MiAyMS4yMTIgMTk5Ljk4MiAyMS40NDI4IDE5OS45NjQgMjEuNjgyOEgxODkuNTcxQzE4OS42NDQgMjIuNzUzNSAxOTAuMDEyIDIzLjU5MzYgMTkwLjY3NCAyNC4yMDI4QzE5MS4zNTQgMjQuODEyIDE5Mi4xNzEgMjUuMTE2NiAxOTMuMTI3IDI1LjExNjZDMTkzLjg0NCAyNS4xMTY2IDE5NC40NDEgMjQuOTU5OCAxOTQuOTE5IDI0LjY0NTlDMTk1LjQxNiAyNC4zMTM2IDE5NS43ODIgMjMuODg4OSAxOTYuMDIyIDIzLjM3MkgxOTkuNjA2QzE5OS4zNDggMjQuMjM5OCAxOTguOTE3IDI1LjAzMzYgMTk4LjMxIDI1Ljc1MzZDMTk3LjcyMiAyNi40NTUxIDE5Ni45ODcgMjcuMDA5IDE5Ni4xMDUgMjcuNDE1MUMxOTUuMjQxIDI3LjgyMTIgMTk0LjI1OCAyOC4wMjQzIDE5My4xNTUgMjguMDI0M1pNMTkzLjE4MyAxNi41MDQzQzE5Mi4zMTggMTYuNTA0MyAxOTEuNTU2IDE2Ljc1MzYgMTkwLjg5NSAxNy4yNTJDMTkwLjIzMyAxNy43MzIxIDE4OS44MSAxOC40NzA1IDE4OS42MjYgMTkuNDY3NEgxOTYuNDM2QzE5Ni4zOCAxOC41NjI4IDE5Ni4wNSAxNy44NDI4IDE5NS40NDMgMTcuMzA3NEMxOTQuODM3IDE2Ljc3MiAxOTQuMDgzIDE2LjUwNDMgMTkzLjE4MyAxNi41MDQzWiIgZmlsbD0iIzA3MkIyRCIvPgo8cGF0aCBkPSJNMTcuOTE5MyAxLjI4MzY5QzE3LjY0NzEgMS4yODM2OSAxNy4zNzUgMS4yOTAxNyAxNy4xMDI3IDEuMzAzNzNDMTYuODMwNSAxLjMxNzI4IDE2LjU1OTUgMS4zMzczMiAxNi4yODg1IDEuMzY0NDJDMTYuMDE3NCAxLjM5MDk0IDE1Ljc0NyAxLjQyNDUzIDE1LjQ3NzggMS40NjQ2QzE1LjIwNzkgMS41MDQ2NyAxNC45Mzk4IDEuNTUxMjIgMTQuNjcyOSAxLjYwNDg1QzE0LjQwNTkgMS42NTg0NyAxNC4xNDAyIDEuNzE4IDEzLjg3NTcgMS43ODQ1OEMxMy42MTE3IDEuODUxMTcgMTMuMzQ5NCAxLjkyNDI1IDEzLjA4ODQgMi4wMDMyMkMxMi44Mjc5IDIuMDgyNzYgMTIuNTY5OCAyLjE2ODggMTIuMzEyOSAyLjI2MDczQzEyLjA1NjUgMi4zNTMyNSAxMS44MDI1IDIuNDUxNjUgMTEuNTUwOCAyLjU1NTk1QzExLjI5OTcgMi42NjA4NSAxMS4wNTA0IDIuNzcxNjQgMTAuODA0NiAyLjg4ODkxQzEwLjU1ODIgMy4wMDU1OCAxMC4zMTQ4IDMuMTI4NzQgMTAuMDc0OSAzLjI1NzhDOS44MzQzMyAzLjM4NjI3IDkuNTk3OTMgMy41MjEyMSA5LjM2Mzg3IDMuNjYyMDVDOS4xMzAzOCAzLjgwMjMgOC45MDA0MyAzLjk0OTAzIDguNjczOTkgNC4xMDEwN0M4LjQ0NzU1IDQuMjUzMSA4LjIyNTIyIDQuNDEwNDQgOC4wMDY0IDQuNTczMDlDNy43ODc1OCA0LjczNjMyIDcuNTcyODcgNC45MDQyNiA3LjM2MjI3IDUuMDc4MUM3LjE1MTY4IDUuMjUxOTQgNi45NDU3NiA1LjQzMDUgNi43NDM5NyA1LjYxMzc3QzYuNTQyMTYgNS43OTc2MiA2LjM0NTA1IDUuOTg2MTkgNi4xNTIwNSA2LjE3OTQ4QzUuOTU5NjQgNi4zNzMzNSA1Ljc3MTkyIDYuNTcxMzUgNS41ODg4OSA2Ljc3NDA3QzUuNDA2NDUgNi45NzY3OCA1LjIyODY5IDcuMTgzNjIgNS4wNTU2MyA3LjM5NTE3QzQuODgyNTggNy42MDY3MyA0LjcxNTQgNy44MjI0MSA0LjU1MjkgOC4wNDIyMkM0LjM5MDk4IDguMjYyMDEgNC4yMzQzNSA4LjQ4NTM1IDQuMDgzMDEgOC43MTI4MUMzLjkzMTY1IDguOTQwMjggMy43ODU1OCA5LjE3MTI5IDMuNjQ1OTcgOS40MDU4MUMzLjUwNTc2IDkuNjQwOTUgMy4zNzE0MiA5Ljg3ODQyIDMuMjQzNTMgMTAuMTJDMy4xMTUwNiAxMC4zNjEgMi45OTI0NiAxMC42MDU2IDIuODc2MzEgMTAuODUzMUMyLjc1OTU2IDExLjEgMi42NDkyNyAxMS4zNTA1IDIuNTQ0ODYgMTEuNjAyN0MyLjQ0MTAzIDExLjg1NTUgMi4zNDMwNSAxMi4xMTA2IDIuMjUwOTUgMTIuMzY4MkMyLjE1OTQ0IDEyLjYyNjMgMi4wNzM3OSAxMi44ODU1IDEuOTk0NiAxMy4xNDcyQzEuOTE1OTkgMTMuNDA5NCAxLjg0MzI0IDEzLjY3MjggMS43NzY5NSAxMy45MzgxQzEuNzEwNjcgMTQuMjAzOCAxLjY1MTQxIDE0LjQ3MDcgMS41OTgwNCAxNC43Mzg4QzEuNTQ0NjYgMTUuMDA3IDEuNDk4MyAxNS4yNzYzIDEuNDU4NDEgMTUuNTQ3NEMxLjQxODUyIDE1LjgxNzggMS4zODUwOCAxNi4wODk1IDEuMzU4NjkgMTYuMzYxN0MxLjMzMTcgMTYuNjM0MSAxLjMxMTc2IDE2LjkwNjMgMS4yOTgyNyAxNy4xNzk3QzEuMjg0NzcgMTcuNDUzMSAxLjI3ODMyIDE3LjcyNjUgMS4yNzgzMiAxOEMxLjI3ODMyIDE4LjI3MzQgMS4yODQ3NyAxOC41NDY4IDEuMjk4MjcgMTguODIwMkMxLjMxMTc2IDE5LjA5MzcgMS4zMzE3IDE5LjM2NTkgMS4zNTg2OSAxOS42MzgxQzEuMzg1MDggMTkuOTEwNSAxLjQxODUyIDIwLjE4MjEgMS40NTg0MSAyMC40NTI2QzEuNDk4MyAyMC43MjM3IDEuNTQ0NjYgMjAuOTkzIDEuNTk4MDQgMjEuMjYxQzEuNjUxNDEgMjEuNTI5MiAxLjcxMDY3IDIxLjc5NjIgMS43NzY5NSAyMi4wNjE5QzEuODQzMjQgMjIuMzI3IDEuOTE1OTkgMjIuNTkwNSAxLjk5NDYgMjIuODUyOEMyLjA3Mzc5IDIzLjExNDMgMi4xNTk0NCAyMy4zNzM3IDIuMjUwOTUgMjMuNjMxOEMyLjM0MzA1IDIzLjg4OTMgMi40NDEwMyAyNC4xNDQ1IDIuNTQ0ODYgMjQuMzk3MkMyLjY0OTI3IDI0LjY0OTUgMi43NTk1NiAyNC44OTk5IDIuODc2MzEgMjUuMTQ2OEMyLjk5MjQ2IDI1LjM5NDQgMy4xMTUwNiAyNS42Mzg5IDMuMjQzNTMgMjUuODc5OEMzLjM3MTQyIDI2LjEyMTQgMy41MDU3NiAyNi4zNTkgMy42NDU5NyAyNi41OTQyQzMuNzg1NTggMjYuODI4NyAzLjkzMTY1IDI3LjA1OTcgNC4wODMwMSAyNy4yODcyQzQuMjM0MzUgMjcuNTE0NSA0LjM5MDk4IDI3LjczNzggNC41NTI5IDI3Ljk1NzdDNC43MTU0IDI4LjE3NzUgNC44ODI1OCAyOC4zOTMyIDUuMDU1NjMgMjguNjA0OEM1LjIyODY5IDI4LjgxNjMgNS40MDY0NSAyOS4wMjMyIDUuNTg4ODkgMjkuMjI1OUM1Ljc3MTkyIDI5LjQyODYgNS45NTk2NCAyOS42MjY2IDYuMTUyMDUgMjkuODIwNEM2LjM0NTA1IDMwLjAxMzcgNi41NDIxNiAzMC4yMDIzIDYuNzQzOTcgMzAuMzg2MkM2Ljk0NTc2IDMwLjU2OTQgNy4xNTE2OCAzMC43NDggNy4zNjIyNyAzMC45MjE4QzcuNTcyODcgMzEuMDk1NyA3Ljc4NzU4IDMxLjI2MzYgOC4wMDY0IDMxLjQyNjlDOC4yMjUyMiAzMS41ODk0IDguNDQ3NTUgMzEuNzQ2OSA4LjY3Mzk5IDMxLjg5ODlDOC45MDA0MyAzMi4wNTA5IDkuMTMwMzggMzIuMTk3NyA5LjM2Mzg3IDMyLjMzNzhDOS41OTc5MyAzMi40Nzg4IDkuODM0MzMgMzIuNjEzNiAxMC4wNzQ5IDMyLjc0MjFDMTAuMzE0OCAzMi44NzEyIDEwLjU1ODIgMzIuOTk0NCAxMC44MDQ2IDMzLjExMUMxMS4wNTA0IDMzLjIyODMgMTEuMjk5NyAzMy4zMzkgMTEuNTUwOCAzMy40NDRDMTEuODAyNSAzMy41NDgyIDEyLjA1NjUgMzMuNjQ2NyAxMi4zMTI5IDMzLjczOTJDMTIuNTY5OCAzMy44MzExIDEyLjgyNzkgMzMuOTE3MSAxMy4wODg0IDMzLjk5NjdDMTMuMzQ5NCAzNC4wNzU2IDEzLjYxMTcgMzQuMTQ4OCAxMy44NzU3IDM0LjIxNTRDMTQuMTQwMiAzNC4yODIgMTQuNDA1OSAzNC4zNDE1IDE0LjY3MjkgMzQuMzk1MUMxNC45Mzk4IDM0LjQ0ODcgMTUuMjA3OSAzNC40OTUzIDE1LjQ3NzggMzQuNTM1M0MxNS43NDcgMzQuNTc1NCAxNi4wMTc0IDM0LjYwOSAxNi4yODg1IDM0LjYzNTRDMTYuNTU5NSAzNC42NjI2IDE2LjgzMDUgMzQuNjgyNyAxNy4xMDI3IDM0LjY5NjJDMTcuMzc1IDM0LjcwOTggMTcuNjQ3MSAzNC43MTYyIDE3LjkxOTMgMzQuNzE2MkMxOC4xOTE1IDM0LjcxNjIgMTguNDYzNyAzNC43MDk4IDE4LjczNTggMzQuNjk2MkMxOS4wMDgxIDM0LjY4MjcgMTkuMjc5MSAzNC42NjI2IDE5LjU1MDIgMzQuNjM1NEMxOS44MjEyIDM0LjYwOSAyMC4wOTE2IDM0LjU3NTQgMjAuMzYwOCAzNC41MzUzQzIwLjYzMDcgMzQuNDk1MyAyMC44OTg4IDM0LjQ0ODcgMjEuMTY1OCAzNC4zOTUxQzIxLjQzMjYgMzQuMzQxNSAyMS42OTg0IDM0LjI4MiAyMS45NjI5IDM0LjIxNTRDMjIuMjI3IDM0LjE0ODggMjIuNDg5MiAzNC4wNzU2IDIyLjc0OTcgMzMuOTk2N0MyMy4wMTA2IDMzLjkxNzEgMjMuMjY4OCAzMy44MzExIDIzLjUyNTcgMzMuNzM5MkMyMy43ODIxIDMzLjY0NjcgMjQuMDM2MSAzMy41NDgyIDI0LjI4NzggMzMuNDQ0QzI0LjUzODggMzMuMzM5IDI0Ljc4ODIgMzMuMjI4MyAyNS4wMzM5IDMzLjExMUMyNS4yODA0IDMyLjk5NDQgMjUuNTIzOCAzMi44NzEyIDI1Ljc2MzggMzIuNzQyMUMyNi4wMDQzIDMyLjYxMzYgMjYuMjQwNyAzMi40Nzg4IDI2LjQ3NDcgMzIuMzM3OEMyNi43MDgyIDMyLjE5NzcgMjYuOTM4MSAzMi4wNTA5IDI3LjE2NDYgMzEuODk4OUMyNy4zOTExIDMxLjc0NjkgMjcuNjEzNCAzMS41ODk0IDI3LjgzMjIgMzEuNDI2OUMyOC4wNTExIDMxLjI2MzYgMjguMjY1NyAzMS4wOTU3IDI4LjQ3NjMgMzAuOTIxOEMyOC42ODY5IDMwLjc0OCAyOC44OTI4IDMwLjU2OTQgMjkuMDk0NiAzMC4zODYyQzI5LjI5NjQgMzAuMjAyMyAyOS40OTM1IDMwLjAxMzcgMjkuNjg1OSAyOS44MjA0QzI5Ljg3ODkgMjkuNjI2NiAzMC4wNjY3IDI5LjQyODYgMzAuMjQ5NyAyOS4yMjU5QzMwLjQzMjIgMjkuMDIzMiAzMC42MDk5IDI4LjgxNjMgMzAuNzgzIDI4LjYwNDhDMzAuOTU1NCAyOC4zOTMyIDMxLjEyMzIgMjguMTc3NSAzMS4yODU3IDI3Ljk1NzdDMzEuNDQ3NyAyNy43Mzc4IDMxLjYwNDIgMjcuNTE0NSAzMS43NTU2IDI3LjI4NzJDMzEuOTA2OSAyNy4wNTk3IDMyLjA1MyAyNi44Mjg3IDMyLjE5MjcgMjYuNTk0MkMzMi4zMzI4IDI2LjM1OSAzMi40NjcxIDI2LjEyMTQgMzIuNTk1IDI1Ljg3OThDMzIuNzIzNSAyNS42Mzg5IDMyLjg0NjIgMjUuMzk0NCAzMi45NjIyIDI1LjE0NjhDMzMuMDc5IDI0Ljg5OTkgMzMuMTg5NCAyNC42NDk1IDMzLjI5MzcgMjQuMzk3MkMzMy4zOTc1IDI0LjE0NDUgMzMuNDk1NSAyMy44ODkzIDMzLjU4NzYgMjMuNjMxOEMzMy42NzkxIDIzLjM3MzcgMzMuNzY0OCAyMy4xMTQzIDMzLjg0NCAyMi44NTI4QzMzLjkyMjUgMjIuNTkwNSAzMy45OTUzIDIyLjMyNyAzNC4wNjE2IDIyLjA2MTlDMzQuMTI3OSAyMS43OTYyIDM0LjE4NzIgMjEuNTI5MiAzNC4yNDA1IDIxLjI2MUMzNC4yOTM5IDIwLjk5MyAzNC4zNDAzIDIwLjcyMzcgMzQuMzgwMiAyMC40NTI2QzM0LjQyMDEgMjAuMTgyMSAzNC40NTM1IDE5LjkxMDUgMzQuNDc5OSAxOS42MzgxQzM0LjUwNjggMTkuMzY1OSAzNC41MjY4IDE5LjA5MzcgMzQuNTQwMyAxOC44MjAyQzM0LjU1MzggMTguNTQ2OCAzNC41NjAzIDE4LjI3MzQgMzQuNTYwMyAxOEMzNC41NjAzIDE3LjcyNjUgMzQuNTUzOCAxNy40NTMxIDM0LjU0MDMgMTcuMTc5N0MzNC41MjY4IDE2LjkwNjMgMzQuNTA2OCAxNi42MzQxIDM0LjQ3OTkgMTYuMzYxN0MzNC40NTM1IDE2LjA4OTUgMzQuNDIwMSAxNS44MTc4IDM0LjM4MDIgMTUuNTQ3NEMzNC4zNDAzIDE1LjI3NjMgMzQuMjkzOSAxNS4wMDcgMzQuMjQwNSAxNC43Mzg4QzM0LjE4NzIgMTQuNDcwNyAzNC4xMjc5IDE0LjIwMzggMzQuMDYxNiAxMy45MzgxQzMzLjk5NTMgMTMuNjcyOCAzMy45MjI1IDEzLjQwOTQgMzMuODQ0IDEzLjE0NzJDMzMuNzY0OCAxMi44ODU1IDMzLjY3OTEgMTIuNjI2MyAzMy41ODc2IDEyLjM2ODJDMzMuNDk1NSAxMi4xMTA2IDMzLjM5NzUgMTEuODU1NSAzMy4yOTM3IDExLjYwMjdDMzMuMTg5NCAxMS4zNTA1IDMzLjA3OSAxMS4xIDMyLjk2MjIgMTAuODUzMUMzMi44NDYyIDEwLjYwNTYgMzIuNzIzNSAxMC4zNjEgMzIuNTk1IDEwLjEyQzMyLjQ2NzEgOS44Nzg0MiAzMi4zMzI4IDkuNjQwOTUgMzIuMTkyNyA5LjQwNTgxQzMyLjA1MyA5LjE3MTI5IDMxLjkwNjkgOC45NDAyOCAzMS43NTU2IDguNzEyODFDMzEuNjA0MiA4LjQ4NTM1IDMxLjQ0NzcgOC4yNjIwMSAzMS4yODU3IDguMDQyMjJDMzEuMTIzMiA3LjgyMjQxIDMwLjk1NTQgNy42MDY3MyAzMC43ODMgNy4zOTUxN0MzMC42MDk5IDcuMTgzNjIgMzAuNDMyMiA2Ljk3Njc4IDMwLjI0OTcgNi43NzQwN0MzMC4wNjY3IDYuNTcxMzUgMjkuODc4OSA2LjM3MzM1IDI5LjY4NTkgNi4xNzk0OEMyOS40OTM1IDUuOTg2MTkgMjkuMjk2NCA1Ljc5NzYyIDI5LjA5NDYgNS42MTM3N0MyOC44OTI4IDUuNDMwNSAyOC42ODY5IDUuMjUxOTQgMjguNDc2MyA1LjA3ODFDMjguMjY1NyA0LjkwNDI2IDI4LjA1MTEgNC43MzYzMiAyNy44MzIyIDQuNTczMDlDMjcuNjEzNCA0LjQxMDQ0IDI3LjM5MTEgNC4yNTMxIDI3LjE2NDYgNC4xMDEwN0MyNi45MzgxIDMuOTQ5MDMgMjYuNzA4MiAzLjgwMjMgMjYuNDc0NyAzLjY2MjA1QzI2LjI0MDcgMy41MjEyMSAyNi4wMDQzIDMuMzg2MjcgMjUuNzYzOCAzLjI1NzhDMjUuNTIzOCAzLjEyODc0IDI1LjI4MDQgMy4wMDU1OCAyNS4wMzM5IDIuODg4OTFDMjQuNzg4MiAyLjc3MTY0IDI0LjUzODggMi42NjA4NSAyNC4yODc4IDIuNTU1OTVDMjQuMDM2MSAyLjQ1MTY1IDIzLjc4MjEgMi4zNTMyNSAyMy41MjU3IDIuMjYwNzNDMjMuMjY4OCAyLjE2ODggMjMuMDEwNiAyLjA4Mjc2IDIyLjc1MDIgMi4wMDMyMkMyMi40ODkyIDEuOTI0MjUgMjIuMjI3IDEuODUxMTcgMjEuOTYyOSAxLjc4NDU4QzIxLjY5ODQgMS43MTggMjEuNDMyNiAxLjY1ODQ3IDIxLjE2NTggMS42MDQ4NUMyMC44OTg4IDEuNTUxMjIgMjAuNjMwNyAxLjUwNDY3IDIwLjM2MDggMS40NjQ2QzIwLjA5MTYgMS40MjQ1MyAxOS44MjEyIDEuMzkwOTQgMTkuNTUwMiAxLjM2NDQyQzE5LjI3OTEgMS4zMzczMiAxOS4wMDgxIDEuMzE3MjggMTguNzM1OCAxLjMwMzczQzE4LjQ2MzcgMS4yOTAxNyAxOC4xOTE1IDEuMjgzNjkgMTcuOTE5MyAxLjI4MzY5WiIgZmlsbD0iIzAzOTg5RSIvPgo8cGF0aCBkPSJNMjAuNDk5OSAyMS4zODYyQzE5Ljc2OSAyMS41OTQ5IDE5LjA0MTYgMjEuMDQxNiAxOS4wNDE2IDIwLjI3ODRWOC41MzQ1NEMxOS4wNDE2IDcuODc4NjggMTkuNjQ5OSA3LjM4NzggMjAuMjg2NCA3LjUzODY2QzIzLjQyNDggOC4yODA1NiAyNS43NjggMTEuMTEzMyAyNS43NjggMTQuNDg1MkMyNS43NjggMTcuNzQ5MyAyMy41NzI3IDIwLjUwNzcgMjAuNDk5OSAyMS4zODYyWk0xNy43NTgxIDIyLjAwOTJWOC41MzQ1NEMxNy43NTgxIDcuODc4NjggMTcuMTQ5NiA3LjM4NzggMTYuNTEzMiA3LjUzODY2QzEzLjM3NDcgOC4yNzk5OCAxMS4wMzE3IDExLjExMzMgMTEuMDMxNyAxNC40ODUyVjI4LjIxMDJDMTEuMDMxNyAyOC43MjUzIDExLjUwMDUgMjkuMTEyNCAxMi4wMDQ0IDI5LjAxMzlDMTUuMjc4OSAyOC4zNzYzIDE3Ljc1ODEgMjUuNDc3NiAxNy43NTgxIDIyLjAwOTJaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K'
+        class='protectonce-logo'
+      /> }}
+
+      <img src='/ui/assets/images/poLogoFull.svg' class='protectonce-logo' />
+    </a>
+  </h5>
+  <Hds::Table @caption='your custom, meaningful caption goes here'>
+    <:head as |H|>
+      <H.Tr>
+        <H.Th>Service</H.Th>
+        <H.Th>Host</H.Th>
+        <H.Th>Path</H.Th>
+        <H.Th>Method</H.Th>
+        <H.Th>Risk</H.Th>
+        <H.Th>Issues</H.Th>
+        <H.Th>PII</H.Th>
+        <H.Th>Auth Type</H.Th>
+        <H.Th>Internet Facing</H.Th>
+        <H.Th>Traffic</H.Th>
+        <H.Th>Drifted</H.Th>
+      </H.Tr>
+    </:head>
+    <:body as |B|>
+      {{#each apisDataFin as |item|}}
+        <B.Tr>
+          <B.Td class='po-table-cell'>
+            <div class='po-table-cell-child-Service'>
+              <span {{tooltip item.Service}}>
+                {{item.Service}}
+              </span>
+            </div>
+          </B.Td>
+          <B.Td class='po-table-cell'>
+            <div class='po-table-cell-child-Host'>
+              <span {{tooltip item.Host}}>
+                {{item.Host}}
+              </span>
+            </div>
+          </B.Td>
+          <B.Td class='po-table-cell'>
+            <div class='po-table-cell-child' {{tooltip item.Path}}>
+              {{item.Path}}
+            </div>
+          </B.Td>
+          <B.Td class='po-table-cell'>
+            <div class='po-table-cell-child-Method'>
+              <span {{tooltip item.Method}}>
+                {{item.Method}}
+              </span>
+            </div>
+          </B.Td>
+          <B.Td class='po-table-cell'>
+            <div class='po-table-cell-child-Risk'>
+              <span {{tooltip item.Risk}}>
+                {{item.Risk}}
+              </span>
+            </div>
+          </B.Td>
+          <B.Td class='po-table-cell'>
+            <div class='po-table-cell-child-Issues'>
+              <span {{tooltip item.Issues}}>
+                {{item.Issues}}
+              </span>
+            </div>
+          </B.Td>
+          <B.Td class='po-table-cell'>
+            <div class='po-table-cell-child-PII'>
+              {{#if (eq item.PII.length 0)}}
+                --
+              {{/if}}
+              <span class='po-table-cell-child-PII' {{tooltip item.PII}}>
+                {{#each item.PII as |piiItem|}}
+                  {{#if (eq piiItem 'EMAIL')}}
+                    <span>
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        width='16'
+                        height='16'
+                        fill='none'
+                        viewBox='0 0 16 16'
+                      ><path
+                          fill='currentColor'
+                          fill-rule='evenodd'
+                          d='M0 3.25A2.25 2.25 0 012.25 1h11.5A2.25 2.25 0 0116 3.25v9.5A2.25 2.25 0 0113.75 15H2.25A2.25 2.25 0 010 12.75v-9.5zm2.25-.75a.75.75 0 00-.748.69L8 8.297l6.498-5.105a.75.75 0 00-.748-.691H2.25zm-.75 9.885V5.097l3.865 3.037L1.5 12.385zM2.514 13.5h10.972L9.452 9.063l-.989.777a.75.75 0 01-.926 0l-.99-.777L2.515 13.5zm8.12-5.366l3.866 4.251V5.097l-3.865 3.037z'
+                          clip-rule='evenodd'
+                        /></svg>
+                    </span>
+                  {{else if (eq piiItem 'PASSWORD')}}
+                    <span>
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        width='16'
+                        height='16'
+                        fill='none'
+                        viewBox='0 0 16 16'
+                      ><g fill='currentColor' fill-rule='evenodd' clip-rule='evenodd'><path
+                            d='M9.16 3.657A2.236 2.236 0 0110.752 3a2.248 2.248 0 11-2.078 3.11l-.001-.002a2.243 2.243 0 01.489-2.451zm1.06 1.061a.737.737 0 01.815-.16.748.748 0 01-.284 1.44.748.748 0 01-.532-1.278l.001-.002z'
+                          /><path
+                            d='M10.354 0a5.68 5.68 0 00-4.906 2.846 5.68 5.68 0 00-.466 4.555L.22 12.162a.75.75 0 00-.22.53v2.558c0 .414.336.75.75.75h2.547a.75.75 0 00.53-.22l.655-.655a1.072 1.072 0 00.311-.784v-.64h.548c.31 0 .618-.123.843-.355l.008-.008c.204-.216.324-.498.33-.801v-.556h.676c.288 0 .566-.117.767-.327l.638-.637a5.664 5.664 0 004.55-.468 5.683 5.683 0 002.798-4.152v-.001a5.68 5.68 0 00-1.602-4.742A5.619 5.619 0 0010.354 0zm-.548 1.536a4.12 4.12 0 013.482 1.178 4.18 4.18 0 011.176 3.483 4.183 4.183 0 01-2.054 3.05 4.163 4.163 0 01-3.671.221.75.75 0 00-.143-.043l-.023-.005a.806.806 0 00-.714.219l-.842.842H5.973a.951.951 0 00-.95.951v.768h-.779a.951.951 0 00-.95.952v1.04l-.308.308H1.5v-1.497L6.355 8.15c.22-.22.311-.567.174-.888a4.178 4.178 0 01.221-3.67 4.18 4.18 0 013.053-2.054h.003z'
+                          /></g></svg>
+                    </span>
+                  {{else if (eq piiItem 'DATE_TIME')}}
+                    <span>
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        width='16'
+                        height='16'
+                        fill='none'
+                        viewBox='0 0 16 16'
+                      ><g fill='currentColor'><path
+                            d='M8.5 3.75a.75.75 0 00-1.5 0V8c0 .284.16.544.415.67l2.5 1.25a.75.75 0 10.67-1.34L8.5 7.535V3.75z'
+                          /><path
+                            fill-rule='evenodd'
+                            d='M8 0a8 8 0 100 16A8 8 0 008 0zM1.5 8a6.5 6.5 0 1113 0 6.5 6.5 0 01-13 0z'
+                            clip-rule='evenodd'
+                          /></g></svg>
+                    </span>
+                  {{else if (eq piiItem 'NAME')}}
+                    <span>
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        width='16'
+                        height='16'
+                        fill='none'
+                        viewBox='0 0 16 16'
+                      ><g fill='currentColor'><path
+                            fill-rule='evenodd'
+                            d='M8 1a4 4 0 100 8 4 4 0 000-8zM5.5 5a2.5 2.5 0 115 0 2.5 2.5 0 01-5 0z'
+                            clip-rule='evenodd'
+                          /><path
+                            d='M5.25 10a3.75 3.75 0 00-3.75 3.75v.5a.75.75 0 001.5 0v-.5a2.25 2.25 0 012.25-2.25h5.5A2.25 2.25 0 0113 13.75v.5a.75.75 0 001.5 0v-.5A3.75 3.75 0 0010.75 10h-5.5z'
+                          /></g></svg>
+                    </span>
+                  {{else if (eq piiItem 'URL')}}
+                    <span>
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        width='16'
+                        height='16'
+                        fill='none'
+                        viewBox='0 0 16 16'
+                      ><g fill='currentColor'><path
+                            d='M11.141 1a3.893 3.893 0 00-2.738 1.093L7.314 3.175A.75.75 0 008.372 4.24l1.077-1.07a2.393 2.393 0 013.384 3.382l-1.881 1.88a2.393 2.393 0 01-3.608-.258.75.75 0 00-1.202.899 3.893 3.893 0 005.87.42l1.886-1.886.01-.009A3.893 3.893 0 0011.14 1z'
+                          /><path
+                            d='M7.019 5.365a3.893 3.893 0 00-3.032 1.13L2.102 8.382l-.01.01a3.893 3.893 0 005.505 5.504l1.084-1.084a.75.75 0 00-1.06-1.06l-1.07 1.07a2.393 2.393 0 01-3.384-3.384l1.881-1.88a2.393 2.393 0 013.609.258.75.75 0 101.2-.899A3.893 3.893 0 007.02 5.365z'
+                          /></g></svg>
+                    </span>
+                  {{else if (eq piiItem 'CREDIT_CARD')}}
+                    <span>
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        width='16'
+                        height='16'
+                        fill='none'
+                        viewBox='0 0 16 16'
+                      ><g fill='currentColor'><path
+                            d='M3.75 9a.75.75 0 000 1.5h1.5a.75.75 0 000-1.5h-1.5z'
+                          /><path
+                            fill-rule='evenodd'
+                            d='M0 4.25A2.25 2.25 0 012.25 2h11.5A2.25 2.25 0 0116 4.25v7.5A2.25 2.25 0 0113.75 14H2.25A2.25 2.25 0 010 11.75v-7.5zm14.5 0V5h-13v-.75a.75.75 0 01.75-.75h11.5a.75.75 0 01.75.75zm0 2.75h-13v4.75c0 .414.336.75.75.75h11.5a.75.75 0 00.75-.75V7z'
+                            clip-rule='evenodd'
+                          /></g></svg>
+                    </span>
+                  {{else if (eq piiItem 'CREDIT_DEBIT_NUMBER')}}
+                    <span>
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        width='16'
+                        height='16'
+                        fill='none'
+                        viewBox='0 0 16 16'
+                      ><g fill='currentColor'><path
+                            d='M3.75 9a.75.75 0 000 1.5h1.5a.75.75 0 000-1.5h-1.5z'
+                          /><path
+                            fill-rule='evenodd'
+                            d='M0 4.25A2.25 2.25 0 012.25 2h11.5A2.25 2.25 0 0116 4.25v7.5A2.25 2.25 0 0113.75 14H2.25A2.25 2.25 0 010 11.75v-7.5zm14.5 0V5h-13v-.75a.75.75 0 01.75-.75h11.5a.75.75 0 01.75.75zm0 2.75h-13v4.75c0 .414.336.75.75.75h11.5a.75.75 0 00.75-.75V7z'
+                            clip-rule='evenodd'
+                          /></g></svg>
+                    </span>
+                  {{else if (eq piiItem 'CRYPTO')}}
+                    <span>
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        width='16'
+                        height='16'
+                        fill='none'
+                        viewBox='0 0 16 16'
+                      ><path
+                          fill='currentColor'
+                          fill-rule='evenodd'
+                          d='M8.5.75a.75.75 0 00-1.5 0V2h-.594c-.9 0-1.766.353-2.405.985A3.36 3.36 0 003 5.375a3.36 3.36 0 001 2.39c.64.632 1.506.985 2.406.985H7v3.75H4.25a.75.75 0 000 1.5H7v1.25a.75.75 0 001.5 0V14h1.094c.9 0 1.766-.353 2.405-.985A3.36 3.36 0 0013 10.625a3.36 3.36 0 00-1-2.39 3.422 3.422 0 00-2.406-.985H8.5V3.5h3.25a.75.75 0 000-1.5H8.5V.75zM7 3.5h-.594c-.508 0-.994.2-1.35.552A1.86 1.86 0 004.5 5.375c0 .494.199.97.555 1.323.357.352.843.552 1.351.552H7V3.5zm1.5 5.25v3.75h1.094c.508 0 .994-.2 1.35-.552a1.86 1.86 0 00.556-1.323c0-.494-.199-.97-.555-1.323a1.922 1.922 0 00-1.351-.552H8.5z'
+                          clip-rule='evenodd'
+                        /></svg>
+                    </span>
+                  {{else if (eq piiItem 'EMAIL_ADDRESS')}}
+                    <span>
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        width='16'
+                        height='16'
+                        fill='none'
+                        viewBox='0 0 16 16'
+                      ><path
+                          fill='currentColor'
+                          fill-rule='evenodd'
+                          d='M0 3.25A2.25 2.25 0 012.25 1h11.5A2.25 2.25 0 0116 3.25v9.5A2.25 2.25 0 0113.75 15H2.25A2.25 2.25 0 010 12.75v-9.5zm2.25-.75a.75.75 0 00-.748.69L8 8.297l6.498-5.105a.75.75 0 00-.748-.691H2.25zm-.75 9.885V5.097l3.865 3.037L1.5 12.385zM2.514 13.5h10.972L9.452 9.063l-.989.777a.75.75 0 01-.926 0l-.99-.777L2.515 13.5zm8.12-5.366l3.866 4.251V5.097l-3.865 3.037z'
+                          clip-rule='evenodd'
+                        /></svg>
+                    </span>
+                  {{else if (eq piiItem 'IP_ADDRESS')}}
+                    <span>
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        width='16'
+                        height='16'
+                        fill='none'
+                        viewBox='0 0 16 16'
+                      ><path
+                          fill='currentColor'
+                          fill-rule='evenodd'
+                          d='M0 7.75A3 3 0 015.905 7h4.19a3.001 3.001 0 110 1.5h-4.19A3.001 3.001 0 010 7.75zm3-1.5a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm10 0a1.5 1.5 0 100 3 1.5 1.5 0 000-3z'
+                          clip-rule='evenodd'
+                        /></svg>
+                    </span>
+                  {{else if (eq piiItem 'LOCATION')}}
+                    <span>
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        width='16'
+                        height='16'
+                        fill='none'
+                        viewBox='0 0 16 16'
+                      ><g fill='currentColor' fill-rule='evenodd' clip-rule='evenodd'><path
+                            d='M8 4.5a2.5 2.5 0 100 5 2.5 2.5 0 000-5zM7 7a1 1 0 112 0 1 1 0 01-2 0z'
+                          /><path
+                            d='M8 0C4.138 0 1 3.114 1 6.964a6.927 6.927 0 002.085 4.957l4.42 3.892a.75.75 0 00.99 0l4.42-3.892A6.927 6.927 0 0015 6.964C15 3.114 11.862 0 8 0zM2.5 6.964C2.5 3.95 4.958 1.5 8 1.5s5.5 2.45 5.5 5.464c0 1.5-.607 2.858-1.594 3.847L8 14.251l-3.906-3.44A5.427 5.427 0 012.5 6.964z'
+                          /></g></svg>
+                    </span>
+                  {{else if (eq piiItem 'PERSON')}}
+                    <span>
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        width='16'
+                        height='16'
+                        fill='none'
+                        viewBox='0 0 16 16'
+                      ><g fill='currentColor'><path
+                            fill-rule='evenodd'
+                            d='M8 1a4 4 0 100 8 4 4 0 000-8zM5.5 5a2.5 2.5 0 115 0 2.5 2.5 0 01-5 0z'
+                            clip-rule='evenodd'
+                          /><path
+                            d='M5.25 10a3.75 3.75 0 00-3.75 3.75v.5a.75.75 0 001.5 0v-.5a2.25 2.25 0 012.25-2.25h5.5A2.25 2.25 0 0113 13.75v.5a.75.75 0 001.5 0v-.5A3.75 3.75 0 0010.75 10h-5.5z'
+                          /></g></svg>
+                    </span>
+                  {{else if (eq piiItem 'PHONE_NUMBER')}}
+                    <span>
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        width='16'
+                        height='16'
+                        fill='none'
+                        viewBox='0 0 16 16'
+                      ><g fill='currentColor'><path
+                            d='M8 12a1 1 0 100 2h.007a1 1 0 100-2H8z'
+                          /><path
+                            fill-rule='evenodd'
+                            d='M4.25 0A2.25 2.25 0 002 2.25v11.5A2.25 2.25 0 004.25 16h7.5A2.25 2.25 0 0014 13.75V2.25A2.25 2.25 0 0011.75 0h-7.5zM3.5 2.25a.75.75 0 01.75-.75h7.5a.75.75 0 01.75.75v11.5a.75.75 0 01-.75.75h-7.5a.75.75 0 01-.75-.75V2.25z'
+                            clip-rule='evenodd'
+                          /></g></svg>
+                    </span>
+                  {{else if (eq piiItem 'US_BANK_NUMBER')}}
+                    <span>
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        width='16'
+                        height='16'
+                        fill='none'
+                        viewBox='0 0 16 16'
+                      ><g fill='currentColor'><path
+                            d='M5.187 10.482A2.324 2.324 0 016.625 10h2.75c.515 0 1.034.16 1.438.482.41.325.687.807.687 1.359v.409a.75.75 0 01-1.5 0v-.41c0-.026-.012-.098-.119-.183a.828.828 0 00-.506-.157h-2.75a.828.828 0 00-.506.157c-.107.085-.119.157-.119.184v.409a.75.75 0 01-1.5 0v-.41c0-.55.277-1.033.687-1.358z'
+                          /><path
+                            fill-rule='evenodd'
+                            d='M8 4.5a2.5 2.5 0 100 5 2.5 2.5 0 000-5zM7 7a1 1 0 112 0 1 1 0 01-2 0z'
+                            clip-rule='evenodd'
+                          /><path
+                            fill-rule='evenodd'
+                            d='M5.25 0C4.56 0 4 .56 4 1.25V2H2.25A2.25 2.25 0 000 4.25v8.5A2.25 2.25 0 002.25 15h11.5A2.25 2.25 0 0016 12.75v-8.5A2.25 2.25 0 0013.75 2H12v-.75C12 .56 11.44 0 10.75 0h-5.5zm6.5 3.5c-.228.304-.591.5-1 .5h-5.5c-.409 0-.772-.196-1-.5h-2a.75.75 0 00-.75.75v8.5c0 .414.336.75.75.75h11.5a.75.75 0 00.75-.75v-8.5a.75.75 0 00-.75-.75h-2zm-1.25-1h-5v-1h5v1z'
+                            clip-rule='evenodd'
+                          /></g></svg>
+                    </span>
+                  {{else if (eq piiItem 'US_DRIVER_LICENSE')}}
+                    <span>
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        width='16'
+                        height='16'
+                        fill='none'
+                        viewBox='0 0 16 16'
+                      ><g fill='currentColor'><path
+                            d='M5.187 10.482A2.324 2.324 0 016.625 10h2.75c.515 0 1.034.16 1.438.482.41.325.687.807.687 1.359v.409a.75.75 0 01-1.5 0v-.41c0-.026-.012-.098-.119-.183a.828.828 0 00-.506-.157h-2.75a.828.828 0 00-.506.157c-.107.085-.119.157-.119.184v.409a.75.75 0 01-1.5 0v-.41c0-.55.277-1.033.687-1.358z'
+                          /><path
+                            fill-rule='evenodd'
+                            d='M8 4.5a2.5 2.5 0 100 5 2.5 2.5 0 000-5zM7 7a1 1 0 112 0 1 1 0 01-2 0z'
+                            clip-rule='evenodd'
+                          /><path
+                            fill-rule='evenodd'
+                            d='M5.25 0C4.56 0 4 .56 4 1.25V2H2.25A2.25 2.25 0 000 4.25v8.5A2.25 2.25 0 002.25 15h11.5A2.25 2.25 0 0016 12.75v-8.5A2.25 2.25 0 0013.75 2H12v-.75C12 .56 11.44 0 10.75 0h-5.5zm6.5 3.5c-.228.304-.591.5-1 .5h-5.5c-.409 0-.772-.196-1-.5h-2a.75.75 0 00-.75.75v8.5c0 .414.336.75.75.75h11.5a.75.75 0 00.75-.75v-8.5a.75.75 0 00-.75-.75h-2zm-1.25-1h-5v-1h5v1z'
+                            clip-rule='evenodd'
+                          /></g></svg>
+                    </span>
+                  {{else if (eq piiItem 'US_PASSPORT')}}
+                    <span>
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        width='16'
+                        height='16'
+                        fill='none'
+                        viewBox='0 0 16 16'
+                      ><g fill='currentColor'><path
+                            d='M5.187 10.482A2.324 2.324 0 016.625 10h2.75c.515 0 1.034.16 1.438.482.41.325.687.807.687 1.359v.409a.75.75 0 01-1.5 0v-.41c0-.026-.012-.098-.119-.183a.828.828 0 00-.506-.157h-2.75a.828.828 0 00-.506.157c-.107.085-.119.157-.119.184v.409a.75.75 0 01-1.5 0v-.41c0-.55.277-1.033.687-1.358z'
+                          /><path
+                            fill-rule='evenodd'
+                            d='M8 4.5a2.5 2.5 0 100 5 2.5 2.5 0 000-5zM7 7a1 1 0 112 0 1 1 0 01-2 0z'
+                            clip-rule='evenodd'
+                          /><path
+                            fill-rule='evenodd'
+                            d='M5.25 0C4.56 0 4 .56 4 1.25V2H2.25A2.25 2.25 0 000 4.25v8.5A2.25 2.25 0 002.25 15h11.5A2.25 2.25 0 0016 12.75v-8.5A2.25 2.25 0 0013.75 2H12v-.75C12 .56 11.44 0 10.75 0h-5.5zm6.5 3.5c-.228.304-.591.5-1 .5h-5.5c-.409 0-.772-.196-1-.5h-2a.75.75 0 00-.75.75v8.5c0 .414.336.75.75.75h11.5a.75.75 0 00.75-.75v-8.5a.75.75 0 00-.75-.75h-2zm-1.25-1h-5v-1h5v1z'
+                            clip-rule='evenodd'
+                          /></g></svg>
+                    </span>
+                  {{else if (eq piiItem 'IT_DRIVER_LICENSE')}}
+                    <span>
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        width='16'
+                        height='16'
+                        fill='none'
+                        viewBox='0 0 16 16'
+                      ><g fill='currentColor'><path
+                            d='M5.187 10.482A2.324 2.324 0 016.625 10h2.75c.515 0 1.034.16 1.438.482.41.325.687.807.687 1.359v.409a.75.75 0 01-1.5 0v-.41c0-.026-.012-.098-.119-.183a.828.828 0 00-.506-.157h-2.75a.828.828 0 00-.506.157c-.107.085-.119.157-.119.184v.409a.75.75 0 01-1.5 0v-.41c0-.55.277-1.033.687-1.358z'
+                          /><path
+                            fill-rule='evenodd'
+                            d='M8 4.5a2.5 2.5 0 100 5 2.5 2.5 0 000-5zM7 7a1 1 0 112 0 1 1 0 01-2 0z'
+                            clip-rule='evenodd'
+                          /><path
+                            fill-rule='evenodd'
+                            d='M5.25 0C4.56 0 4 .56 4 1.25V2H2.25A2.25 2.25 0 000 4.25v8.5A2.25 2.25 0 002.25 15h11.5A2.25 2.25 0 0016 12.75v-8.5A2.25 2.25 0 0013.75 2H12v-.75C12 .56 11.44 0 10.75 0h-5.5zm6.5 3.5c-.228.304-.591.5-1 .5h-5.5c-.409 0-.772-.196-1-.5h-2a.75.75 0 00-.75.75v8.5c0 .414.336.75.75.75h11.5a.75.75 0 00.75-.75v-8.5a.75.75 0 00-.75-.75h-2zm-1.25-1h-5v-1h5v1z'
+                            clip-rule='evenodd'
+                          /></g></svg>
+                    </span>
+                  {{else if (eq piiItem 'IT_IDENTITY_CARD')}}
+                    <span>
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        width='16'
+                        height='16'
+                        fill='none'
+                        viewBox='0 0 16 16'
+                      ><g fill='currentColor'><path
+                            d='M5.187 10.482A2.324 2.324 0 016.625 10h2.75c.515 0 1.034.16 1.438.482.41.325.687.807.687 1.359v.409a.75.75 0 01-1.5 0v-.41c0-.026-.012-.098-.119-.183a.828.828 0 00-.506-.157h-2.75a.828.828 0 00-.506.157c-.107.085-.119.157-.119.184v.409a.75.75 0 01-1.5 0v-.41c0-.55.277-1.033.687-1.358z'
+                          /><path
+                            fill-rule='evenodd'
+                            d='M8 4.5a2.5 2.5 0 100 5 2.5 2.5 0 000-5zM7 7a1 1 0 112 0 1 1 0 01-2 0z'
+                            clip-rule='evenodd'
+                          /><path
+                            fill-rule='evenodd'
+                            d='M5.25 0C4.56 0 4 .56 4 1.25V2H2.25A2.25 2.25 0 000 4.25v8.5A2.25 2.25 0 002.25 15h11.5A2.25 2.25 0 0016 12.75v-8.5A2.25 2.25 0 0013.75 2H12v-.75C12 .56 11.44 0 10.75 0h-5.5zm6.5 3.5c-.228.304-.591.5-1 .5h-5.5c-.409 0-.772-.196-1-.5h-2a.75.75 0 00-.75.75v8.5c0 .414.336.75.75.75h11.5a.75.75 0 00.75-.75v-8.5a.75.75 0 00-.75-.75h-2zm-1.25-1h-5v-1h5v1z'
+                            clip-rule='evenodd'
+                          /></g></svg>
+                    </span>
+                  {{else if (eq piiItem 'IT_PASSPORT')}}
+                    <span>
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        width='16'
+                        height='16'
+                        fill='none'
+                        viewBox='0 0 16 16'
+                      ><g fill='currentColor'><path
+                            d='M5.187 10.482A2.324 2.324 0 016.625 10h2.75c.515 0 1.034.16 1.438.482.41.325.687.807.687 1.359v.409a.75.75 0 01-1.5 0v-.41c0-.026-.012-.098-.119-.183a.828.828 0 00-.506-.157h-2.75a.828.828 0 00-.506.157c-.107.085-.119.157-.119.184v.409a.75.75 0 01-1.5 0v-.41c0-.55.277-1.033.687-1.358z'
+                          /><path
+                            fill-rule='evenodd'
+                            d='M8 4.5a2.5 2.5 0 100 5 2.5 2.5 0 000-5zM7 7a1 1 0 112 0 1 1 0 01-2 0z'
+                            clip-rule='evenodd'
+                          /><path
+                            fill-rule='evenodd'
+                            d='M5.25 0C4.56 0 4 .56 4 1.25V2H2.25A2.25 2.25 0 000 4.25v8.5A2.25 2.25 0 002.25 15h11.5A2.25 2.25 0 0016 12.75v-8.5A2.25 2.25 0 0013.75 2H12v-.75C12 .56 11.44 0 10.75 0h-5.5zm6.5 3.5c-.228.304-.591.5-1 .5h-5.5c-.409 0-.772-.196-1-.5h-2a.75.75 0 00-.75.75v8.5c0 .414.336.75.75.75h11.5a.75.75 0 00.75-.75v-8.5a.75.75 0 00-.75-.75h-2zm-1.25-1h-5v-1h5v1z'
+                            clip-rule='evenodd'
+                          /></g></svg>
+                    </span>
+                  {{else if (eq piiItem 'USERNAME')}}
+                    <span>
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        width='16'
+                        height='16'
+                        fill='none'
+                        viewBox='0 0 16 16'
+                      ><g fill='currentColor'><path
+                            fill-rule='evenodd'
+                            d='M8 1a4 4 0 100 8 4 4 0 000-8zM5.5 5a2.5 2.5 0 115 0 2.5 2.5 0 01-5 0z'
+                            clip-rule='evenodd'
+                          /><path
+                            d='M5.25 10a3.75 3.75 0 00-3.75 3.75v.5a.75.75 0 001.5 0v-.5a2.25 2.25 0 012.25-2.25h5.5A2.25 2.25 0 0113 13.75v.5a.75.75 0 001.5 0v-.5A3.75 3.75 0 0010.75 10h-5.5z'
+                          /></g></svg>
+                    </span>
+                  {{else}}
+                    <span>
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        width='16'
+                        height='16'
+                        fill='none'
+                        viewBox='0 0 16 16'
+                      ><g fill='currentColor'><path
+                            fill-rule='evenodd'
+                            d='M8 1a4 4 0 100 8 4 4 0 000-8zM5.5 5a2.5 2.5 0 115 0 2.5 2.5 0 01-5 0z'
+                            clip-rule='evenodd'
+                          /><path
+                            d='M5.25 10a3.75 3.75 0 00-3.75 3.75v.5a.75.75 0 001.5 0v-.5a2.25 2.25 0 012.25-2.25h5.5A2.25 2.25 0 0113 13.75v.5a.75.75 0 001.5 0v-.5A3.75 3.75 0 0010.75 10h-5.5z'
+                          /></g></svg>
+                    </span>
+                  {{/if}}
+                {{/each}}
+              </span>
+            </div>
+          </B.Td>
+          <B.Td class='po-table-cell'>
+            <div class='po-table-cell-child-Auth'>
+              <span {{tooltip item.Auth}} class='po-table-cell-child-Auth'>
+                {{#if (eq item.Auth 'unknown')}}
+                  <span class='red-color'>
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      width='16'
+                      height='16'
+                      fill='none'
+                      viewBox='0 0 16 16'
+                    ><path
+                        fill='currentColor'
+                        fill-rule='evenodd'
+                        d='M8 .25a7.75 7.75 0 100 15.5A7.75 7.75 0 008 .25zm2.72 3.97a.75.75 0 111.06 1.06L9.06 8l2.72 2.72a.75.75 0 11-1.06 1.06L8 9.06l-2.72 2.72a.75.75 0 01-1.06-1.06L6.94 8 4.22 5.28a.75.75 0 011.06-1.06L8 6.94l2.72-2.72z'
+                        clip-rule='evenodd'
+                      /></svg>
+                  </span>
+                {{else}}
+                  <span class='green-color'>
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      width='16'
+                      height='16'
+                      fill='none'
+                      viewBox='0 0 16 16'
+                    ><path
+                        fill='currentColor'
+                        fill-rule='evenodd'
+                        d='M8 0a8 8 0 100 16A8 8 0 008 0zm2.72 5.22a.75.75 0 111.06 1.06l-4.5 4.5a.75.75 0 01-1.06 0l-2-2a.75.75 0 011.06-1.06l1.47 1.47 3.97-3.97z'
+                        clip-rule='evenodd'
+                      /></svg>
+                  </span>
+                {{/if}}
+                {{item.Auth}}
+              </span>
+            </div>
+          </B.Td>
+          <B.Td class='po-table-cell'>
+            <div class='po-table-cell-child-Internet'>
+              {{#if item.Internet}}
+                <span {{tooltip 'Internet Facing'}} class='green-color'>
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    width='16'
+                    height='16'
+                    fill='none'
+                    viewBox='0 0 16 16'
+                  ><path
+                      fill='currentColor'
+                      fill-rule='evenodd'
+                      d='M8 0a8 8 0 100 16A8 8 0 008 0zm2.72 5.22a.75.75 0 111.06 1.06l-4.5 4.5a.75.75 0 01-1.06 0l-2-2a.75.75 0 011.06-1.06l1.47 1.47 3.97-3.97z'
+                      clip-rule='evenodd'
+                    /></svg>
+                </span>
+              {{/if}}
+              {{#unless item.Internet}}
+                <span {{tooltip 'Internal Facing'}} class='red-color'>
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    width='16'
+                    height='16'
+                    fill='none'
+                    viewBox='0 0 16 16'
+                  ><path
+                      fill='currentColor'
+                      fill-rule='evenodd'
+                      d='M8 .25a7.75 7.75 0 100 15.5A7.75 7.75 0 008 .25zm2.72 3.97a.75.75 0 111.06 1.06L9.06 8l2.72 2.72a.75.75 0 11-1.06 1.06L8 9.06l-2.72 2.72a.75.75 0 01-1.06-1.06L6.94 8 4.22 5.28a.75.75 0 011.06-1.06L8 6.94l2.72-2.72z'
+                      clip-rule='evenodd'
+                    /></svg>
+                </span>
+              {{/unless}}
+            </div>
+          </B.Td>
+          <B.Td class='po-table-cell'>
+            <div class='po-table-cell-child-Traffic'>
+              <span {{tooltip item.Traffic}}>
+                {{item.Traffic}}
+              </span>
+            </div>
+          </B.Td>
+          <B.Td class='po-table-cell'>
+            <div class='po-table-cell-child-Drifted'>
+              {{#if (eq item.Drifted true)}}
+                <span class='red-color' {{tooltip 'Drift has occured'}}>
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    width='16'
+                    height='16'
+                    fill='none'
+                    viewBox='0 0 16 16'
+                  ><path
+                      fill='currentColor'
+                      fill-rule='evenodd'
+                      d='M8 1a2.143 2.143 0 00-1.827 1.024l-5.88 9.768a2.125 2.125 0 00.762 2.915c.322.188.687.289 1.06.293h11.77a2.143 2.143 0 001.834-1.074 2.126 2.126 0 00-.006-2.124L9.829 2.028A2.149 2.149 0 008 1zM7 11a1 1 0 011-1h.007a1 1 0 110 2H8a1 1 0 01-1-1zm1.75-5.25a.75.75 0 00-1.5 0v2.5a.75.75 0 001.5 0v-2.5z'
+                      clip-rule='evenodd'
+                    /></svg>
+                </span>
+                {{!-- {{else if (eq item.Drifted false)}}
+                Not Drifted --}}
+              {{else}}
+                --
+              {{/if}}
+            </div>
+          </B.Td>
+        </B.Tr>
+      {{/each}}
+    </:body>
+  </Hds::Table>
+</div>
