@@ -12,8 +12,8 @@ export default class Poapis extends Component {
     fetch('https://fe.dev.protectonce.com/frontegg/identity/resources/auth/v1/user', {
       method: 'POST',
       body: JSON.stringify({
-        email: 'aditya.j@protectonce.com',
-        password: 'Sp@cebound18#d3v',
+        email: '<email>',
+        password: '<password>',
         recaptchaToken: '',
         invitationToken: '',
       }),
@@ -281,8 +281,8 @@ export default class Poapis extends Component {
       fetch('https://fe.dev.protectonce.com/frontegg/identity/resources/auth/v1/user', {
         method: 'POST',
         body: JSON.stringify({
-          email: 'aditya.j@protectonce.com',
-          password: 'Sp@cebound18#d3v',
+          email: '<email>',
+          password: '<password>',
           recaptchaToken: '',
           invitationToken: '',
         }),
